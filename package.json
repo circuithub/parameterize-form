@@ -1,0 +1,23 @@
+{
+  "name": "parameterize-form",
+  "description": "Quick, simple way to describe forms semantically from a collection of variables, types and other constraints.",
+  "version": "0.0.0",
+  "homepage": "http://github.com/circuithub",
+  "author": {
+    "name": "Rehno Lindeque",
+    "email": "rehno@circuithub.com",
+    "url" : "http://rehno.lindeque.name/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/circuithub/parameterize-form.git"
+  },
+  "main": "./index.coffee",
+  "engines": {},
+  "dependencies": {},
+  "devDependencies": {
+    "adt.js": "git://github.com/rehno-lindeque/adt.js.git#master",
+    "adt-html.js": "git://github.com/rehno-lindeque/adt-html.js.git#master"
+  },
+  "optionalDependencies": {}
+}
