@@ -1,3 +1,1 @@
-adt = require "adt.js"
-adt.html = require "adt-html.js"
-
+module.exports = require "./src/parameterize-form.coffee" 
