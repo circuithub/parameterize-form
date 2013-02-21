@@ -18,7 +18,8 @@
   "devDependencies": {
     "adt.js": "git://github.com/rehno-lindeque/adt.js.git#master",
     "adt-html.js": "git://github.com/rehno-lindeque/adt-html.js.git#master",
-    "stitch": "*"
+    "stitch": "*",
+    "uglify-js": "*"
   },
   "optionalDependencies": {}
 }

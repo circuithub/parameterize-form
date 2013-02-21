@@ -10,4 +10,4 @@ module.exports = (parameters) ->
       @span {class: "param-numeric"},
         @label {class: "param-label"}
         @input {class: "param-input"}
-  ).call (adt.html)
+  ).call adt.html
