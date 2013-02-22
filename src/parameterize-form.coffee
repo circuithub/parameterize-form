@@ -1,5 +1,5 @@
-adt = require "adt"
-adt.html = require "adt-html"
+adt = adt ? {} # require 'adt.js'
+adt.html = adt.html ? require 'adt-html.js'
 
 # Aliases
 
