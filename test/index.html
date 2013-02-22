@@ -41,9 +41,9 @@
     <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
   <![endif]-->
 
-  <!--<script src="../vendor/adt.js"></script>
-  <script src="../vendor/adt-html.js"></script>-->
   <script src="../dist/parameterize-form.js"></script>
-  
+  <script>
+    document.getElementById('param-form').appendChild(require("parameterize-form")());
+  </script>
 </body>
 </html>
