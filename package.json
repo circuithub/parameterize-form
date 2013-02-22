@@ -14,10 +14,12 @@
   },
   "main": "./index.coffee",
   "engines": {},
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "adt.js": "git://github.com/rehno-lindeque/adt.js.git#master",
     "adt-html.js": "git://github.com/rehno-lindeque/adt-html.js.git#master",
+    "parameterize-adt": "git://github.com/circuithub/parameterize-adt.git#master"
+  },
+  "devDependencies": {
     "stitch": "git://github.com/rehno-lindeque/stitch.git#master",
     "uglify-js": "*"
   },

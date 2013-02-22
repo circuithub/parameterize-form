@@ -2,7 +2,7 @@ fs            = require 'fs'
 path          = require 'path'
 
 # {print}       = require 'util'
-which         = require('which')
+which         = require 'which'
 {spawn, exec} = require 'child_process'
 stitch        = require 'stitch'
 uglify        = require 'uglify-js'
