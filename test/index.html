@@ -31,8 +31,6 @@
   <!-- Screen layout -->
 
   <div id='main-layout'>
-    <div id='param-form'>
-    </div>
   </div>
 
   <!-- Prompt IE users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
@@ -41,9 +39,21 @@
     <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
   <![endif]-->
 
+  <script src="../vendor/adt.js"></script>
+  <script src="../vendor/adt-html.js"></script>
+  <script src="../vendor/parameterize-adt.js"></script>
   <script src="../dist/parameterize-form.js"></script>
   <script>
-    document.getElementById('param-form').appendChild(require("parameterize-form")());
+    var controls = (function(_){
+      return html.section({id: 'parameters'},
+        _.real(),
+        _.real()
+      );
+    })(require('parameterize-form'));
+
+    document.getElementById('main-layout').appendChild(controls);
   </script>
+
+
 </body>
 </html>
