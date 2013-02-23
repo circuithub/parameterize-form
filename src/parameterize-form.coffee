@@ -9,4 +9,3 @@ module.exports = adt {
         html.input {class: "param-input"}    
 }
 ) (adt ? require 'adt.js'), (html ? require 'adt-html.js')
-
