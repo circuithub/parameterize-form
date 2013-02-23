@@ -70,6 +70,16 @@ build = (callback) ->
   coffee.stderr.pipe process.stderr
   coffee.on 'exit', (status) -> callback?() if status is 0
 
+test = (callback) ->
+  #log "change dir to #{__dirname}/test", red
+  #process.chdir "#{__dirname}/test"
+  options = ['-m', 'SimpleHTTPServer']
+  cmd = which.sync "python"
+  server = spawn cmd, options
+  server.stdout.pipe process.stdout
+  server.stderr.pipe process.stderr
+  server.on 'exit', (status) -> callback?() if status is 0
+
 task 'build', "Build the client-side js version of this library", ->
   build -> pack -> log ":)", green
 
@@ -78,3 +88,6 @@ task 'build-complete', "Build the client-side js version of this library packed 
 
 task 'all', "Build all distribution files", ->
   build -> pack -> packComplete -> log ":)", green
+
+task 'test', "Run the test page on port 8000 (needs python)", ->
+  test -> log "done :)", green
