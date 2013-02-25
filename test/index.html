@@ -46,10 +46,9 @@
   <script src="../dist/parameterize-form.js"></script>
   <script>
     var parameterize = require('parameterize-form');
-    var controls = (function(_){
-      return html.section({id: 'parameters'},
+    var form = (function(_){
+      return _.parameters("BGA example parameters",
 
-        // BGA example parameters
         _.section("Preferences",
 
           // environment
@@ -69,6 +68,13 @@
             'None'
             )
 
+        ), _.section("Overall Package",
+
+          _.tolerances(
+            _.real("D", "D", "Extent of the package body X-axis", {min: 5.8, max: 6.2}),
+            _.real("E", "E", "Extent of the package body X-axis", {min: 5.8, max: 6.2})
+          )
+
         ), _.section("Balls",
 
           // collapsible
@@ -83,7 +89,8 @@
 
         )
       )
-    })(parameterize.html);
+    })(parameterize.form);
+    var controls = parameterize.html(form);
 
     document.getElementById('main-layout').appendChild(controls);
   </script>

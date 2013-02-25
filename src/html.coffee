@@ -3,7 +3,7 @@
   wrap = -> html.div {class: 'parameter'}, arguments...
   escapeAttrib = (str) -> (String str).replace /['"]/gi, "`"
 
-  toleranceAPI = adt {
+  toleranceHTML = adt {
     real: (label, description, tolerance) ->
       wrap html.div {class: "param-real", title: (escapeAttrib description)},
         html.label {class: "param-label"}, String label
@@ -12,10 +12,13 @@
   }
 
   module.exports = adt {
+    parameters: (description, children...) -> 
+      html.div {class: "parameters"}, (children.map @)...
+
     section: (heading, children...) ->
       wrap html.section {class: "param-section"},
         html.h2 {class: "param-header"}, String heading
-        children...
+        (children.map @)...
 
     real: (label, description, value) ->
       wrap html.div {class: "param-real", title: (escapeAttrib description)},
@@ -50,8 +53,7 @@
         html.div {class: "param-tolerance-legend"},
           html.span {class: "param-tolerance-legend-label"}, "Min"
           html.span {class: "param-tolerance-legend-label"}, "Max"
-        (tolerances.map toleranceAPI)...
-
+        (tolerances.map toleranceHTML)...
   }
 
 ) (adt ? require 'adt.js'), (html ? require 'adt-html.js')
