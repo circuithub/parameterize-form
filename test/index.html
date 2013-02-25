@@ -25,6 +25,7 @@
     /* Application styling */
 
   </style>
+  <link href="sample.css" rel='stylesheet'>
 </head>
 <body>
 
@@ -44,6 +45,7 @@
   <script src="../vendor/parameterize-adt.js"></script>
   <script src="../dist/parameterize-form.js"></script>
   <script>
+    var parameterize = require('parameterize-form');
     var controls = (function(_){
       return html.section({id: 'parameters'},
 
@@ -81,7 +83,7 @@
 
         )
       )
-    })(require('parameterize-form'));
+    })(parameterize.html);
 
     document.getElementById('main-layout').appendChild(controls);
   </script>
