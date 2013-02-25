@@ -79,14 +79,45 @@ var escapeAttrib,
       "class": "param-input"
     }));
   },
-  select: function(label, description, value) {
+  option: function(label, description, options, defaultKey) {
+    var k, keyValue, v;
+    keyValue = {};
+    options = (function() {
+      var _i, _len, _results;
+      if (Array.isArray(options)) {
+        _results = [];
+        for (_i = 0, _len = options.length; _i < _len; _i++) {
+          k = options[_i];
+          _results.push(keyValue[k] = k);
+        }
+        return _results;
+      } else {
+        return keyValue = options;
+      }
+    })();
+    if (defaultKey == null) {
+      defaultKey = (Object.keys(keyValue))[0];
+    }
     return html.div({
       "class": 'param-real',
       title: escapeAttrib(description),
       'data-placement': 'right'
     }, html.label({
       "class": "param-label"
-    }, String(label)), html.span("  - TODO"));
+    }, String(label)), html.select.apply(html, [{
+      "class": "param-select"
+    }].concat(__slice.call((function() {
+      var _results;
+      _results = [];
+      for (k in keyValue) {
+        v = keyValue[k];
+        _results.push(html.option({
+          value: k,
+          selected: (k === defaultKey ? true : void 0)
+        }, v));
+      }
+      return _results;
+    })()))));
   }
 }))(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'), typeof html !== "undefined" && html !== null ? html : require('adt-html.js'));
 }});
