@@ -80,14 +80,18 @@ test = (callback) ->
   server.stderr.pipe process.stderr
   server.on 'exit', (status) -> callback?() if status is 0
 
+clean = (callback) ->
+  exec "rm -rf build"
+  callback()
+
 task 'build', "Build the client-side js version of this library", ->
-  build -> pack -> log ":)", green
+  clean -> build -> pack -> log ":)", green
 
 task 'build-complete', "Build the client-side js version of this library packed with all its dependencies", ->
-  build -> packComplete -> log ":)", green
+  clean -> build -> packComplete -> log ":)", green
 
 task 'all', "Build all distribution files", ->
-  build -> pack -> packComplete -> log ":)", green
+  clean -> build -> pack -> packComplete -> log ":)", green
 
 task 'test', "Run the test page on port 8000 (needs python)", ->
   test -> log "done :)", green
