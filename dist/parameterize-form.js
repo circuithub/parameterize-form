@@ -63,14 +63,14 @@ var escapeAttrib,
     var children, heading;
     heading = arguments[0], children = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
     return html.section.apply(html, [{
-      "class": 'param-section'
+      "class": "param-section"
     }, html.h2({
-      "class": 'param-header'
+      "class": "param-header"
     }, String(heading))].concat(__slice.call(children)));
   },
   real: function(label, description, value) {
     return html.div({
-      "class": 'param-real',
+      "class": "param-real",
       title: escapeAttrib(description),
       'data-placement': 'right'
     }, html.label({
@@ -79,7 +79,7 @@ var escapeAttrib,
       "class": "param-input"
     }));
   },
-  option: function(label, description, options, defaultKey) {
+  option: function(label, description, options, defaultOption) {
     var k, keyValue, v;
     keyValue = {};
     options = (function() {
@@ -95,16 +95,16 @@ var escapeAttrib,
         return keyValue = options;
       }
     })();
-    if (defaultKey == null) {
-      defaultKey = (Object.keys(keyValue))[0];
+    if (defaultOption == null) {
+      defaultOption = (Object.keys(keyValue))[0];
     }
     return html.div({
-      "class": 'param-real',
+      "class": "param-real",
       title: escapeAttrib(description),
       'data-placement': 'right'
     }, html.label({
       "class": "param-label"
-    }, String(label)), html.select.apply(html, [{
+    }, String(label), html.select.apply(html, [{
       "class": "param-select"
     }].concat(__slice.call((function() {
       var _results;
@@ -113,11 +113,23 @@ var escapeAttrib,
         v = keyValue[k];
         _results.push(html.option({
           value: k,
-          selected: (k === defaultKey ? true : void 0)
+          selected: (k === defaultOption ? true : void 0)
         }, v));
       }
       return _results;
-    })()))));
+    })())))));
+  },
+  boolean: function(label, description, defaultValue) {
+    return html.div({
+      "class": "param-boolean",
+      title: escapeAttrib(description),
+      'data-placement': 'right'
+    }, html.label({
+      "class": "param-label"
+    }, html.input({
+      type: "checkbox",
+      "class": "param-checkbox"
+    }), String(label)));
   }
 }))(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'), typeof html !== "undefined" && html !== null ? html : require('adt-html.js'));
 }});

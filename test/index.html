@@ -70,15 +70,13 @@
         ), _.section("Balls",
 
           // collapsible
-          _.option("Collapsible Solder Balls",
-            "[IMPORTANT] Check the datasheet for ball type. " + 
-            "[NO] Non-Collapsible. Normally 0.5 mm pitch and smaller, where the Land (pad) is larger than the ball to provide an adequate annular ring. " +
-            "[YES] Collapsible. Normally 0.65 mm pitch and higher, where the Land (pad) is smaller than the Ball size to allow the ball to collapse around the sides of the Land.",
-            ['Yes', 'No'],
-            'No'
-            ),
+          _.boolean("Collapsible Solder Balls",
+            "[IMPORTANT] Check the datasheet for ball type.\n" + 
+            "[ON] Non-Collapsible. Normally 0.5 mm pitch and smaller, where the Land (pad) is larger than the ball to provide an adequate annular ring.\n" +
+            "[OFF] Collapsible. Normally 0.65 mm pitch and higher, where the Land (pad) is smaller than the Ball size to allow the ball to collapse around the sides of the Land.",
+            true),
 
-          // b 
+          // b
           _.real("b", "Ball Diameter", 0.001, 0.3)
 
         )
