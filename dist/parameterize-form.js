@@ -91,7 +91,7 @@ var __slice = [].slice;
       description = arguments[0], children = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
       return html.div.apply(html, [{
         "class": "parameters"
-      }].concat(__slice.call(children.map(this))));
+      }].concat(__slice.call(adt.map(this, children))));
     },
     section: function() {
       var children, heading;
@@ -100,7 +100,7 @@ var __slice = [].slice;
         "class": "param-section"
       }, html.h2({
         "class": "param-header"
-      }, String(heading))].concat(__slice.call(children.map(this)))));
+      }, String(heading))].concat(__slice.call(adt.map(this, children)))));
     },
     real: function(label, description, value) {
       return wrap(html.div({
@@ -171,7 +171,7 @@ var __slice = [].slice;
         "class": "param-tolerance-legend-label"
       }, "Min"), html.span({
         "class": "param-tolerance-legend-label"
-      }, "Max"))].concat(__slice.call(tolerances.map(toleranceHTML))));
+      }, "Max"))].concat(__slice.call(adt.map(toleranceHTML, tolerances))));
     }
   });
 })(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'), typeof html !== "undefined" && html !== null ? html : require('adt-html.js'));

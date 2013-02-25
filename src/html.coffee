@@ -13,12 +13,12 @@
 
   module.exports = adt {
     parameters: (description, children...) -> 
-      html.div {class: "parameters"}, (children.map @)...
+      html.div {class: "parameters"}, (adt.map @, children)...
 
     section: (heading, children...) ->
       wrap html.section {class: "param-section"},
         html.h2 {class: "param-header"}, String heading
-        (children.map @)...
+        (adt.map @, children)...
 
     real: (label, description, value) ->
       wrap html.div {class: "param-real", title: (escapeAttrib description)},
@@ -53,7 +53,7 @@
         html.div {class: "param-tolerance-legend"},
           html.span {class: "param-tolerance-legend-label"}, "Min"
           html.span {class: "param-tolerance-legend-label"}, "Max"
-        (tolerances.map toleranceHTML)...
+        (adt.map toleranceHTML, tolerances)...
   }
 
 ) (adt ? require 'adt.js'), (html ? require 'adt-html.js')
