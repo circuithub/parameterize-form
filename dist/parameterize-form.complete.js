@@ -66,7 +66,7 @@ var __slice = [].slice;
     return (String(str)).replace(/['"]/gi, "`");
   };
   toleranceHTML = adt({
-    real: function(label, description, tolerance) {
+    real: function(label, description, defaultTolerance) {
       return wrap(html.div({
         "class": "param-real",
         title: escapeAttrib(description)
@@ -76,12 +76,12 @@ var __slice = [].slice;
         "class": "param-real param-tolerance-min"
       }, html.input({
         "class": "param-input",
-        value: "" + tolerance.min
+        value: String(defaultTolerance.min)
       })), html.span({
         "class": "param-real param-tolerance-max"
       }, html.input({
         "class": "param-input",
-        value: "" + tolerance.max
+        value: String(defaultTolerance.max)
       }))));
     },
     _: function() {
@@ -105,14 +105,15 @@ var __slice = [].slice;
         "class": "param-header"
       }, String(heading))].concat(__slice.call(adt.map(this, children)))));
     },
-    real: function(label, description, value) {
+    real: function(label, description, defaultValue) {
       return wrap(html.div({
         "class": "param-real",
         title: escapeAttrib(description)
       }, html.label({
         "class": "param-label"
       }, String(label)), html.input({
-        "class": "param-input"
+        "class": "param-input",
+        value: String(defaultValue)
       })));
     },
     option: function(label, description, options, defaultOption) {

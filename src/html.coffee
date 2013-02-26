@@ -4,11 +4,11 @@
   escapeAttrib = (str) -> (String str).replace /['"]/gi, "`"
 
   toleranceHTML = adt {
-    real: (label, description, tolerance) ->
+    real: (label, description, defaultTolerance) ->
       wrap html.div {class: "param-real", title: (escapeAttrib description)},
         html.label {class: "param-label"}, String label
-          html.span {class: "param-real param-tolerance-min"}, html.input {class: "param-input", value: "#{tolerance.min}"}
-          html.span {class: "param-real param-tolerance-max"}, html.input {class: "param-input", value: "#{tolerance.max}"}
+          html.span {class: "param-real param-tolerance-min"}, html.input {class: "param-input", value: String defaultTolerance.min}
+          html.span {class: "param-real param-tolerance-max"}, html.input {class: "param-input", value: String defaultTolerance.max}
     _: -> throw "Unsupported tolerance type `#{this._tag}`"
   }
 
@@ -21,10 +21,10 @@
         html.h2 {class: "param-header"}, String heading
         (adt.map @, children)...
 
-    real: (label, description, value) ->
+    real: (label, description, defaultValue) ->
       wrap html.div {class: "param-real", title: (escapeAttrib description)},
         html.label {class: "param-label"}, String label
-          html.input {class: "param-input"}
+          html.input {class: "param-input", value: String defaultValue}
 
     option: (label, description, options, defaultOption) ->
       keyValue = {}
