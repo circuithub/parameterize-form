@@ -9,6 +9,7 @@
         html.label {class: "param-label"}, String label
           html.span {class: "param-real param-tolerance-min"}, html.input {class: "param-input", value: "#{tolerance.min}"}
           html.span {class: "param-real param-tolerance-max"}, html.input {class: "param-input", value: "#{tolerance.max}"}
+    _: -> throw "Unsupported tolerance type `#{this._tag}`"
   }
 
   module.exports = adt {
@@ -48,12 +49,15 @@
           html.input {type: "checkbox", class: "param-checkbox"}
           html.span String label
 
-    tolerances: (tolerances) ->
+    tolerances: (tolerances...) ->
       html.div {class: "param-tolerance-table"},
         html.div {class: "param-tolerance-legend"},
           html.span {class: "param-tolerance-legend-label"}, "Min"
           html.span {class: "param-tolerance-legend-label"}, "Max"
-        (adt.map toleranceHTML, tolerances)...
+        html.div {class: "param-tolerance-body"},
+          (adt.map toleranceHTML, tolerances)...
+
+    _: -> throw "Unsupported parameter type `#{this._tag}`"
   }
 
 ) (adt ? require 'adt.js'), (html ? require 'adt-html.js')

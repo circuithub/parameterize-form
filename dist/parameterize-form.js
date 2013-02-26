@@ -83,6 +83,9 @@ var __slice = [].slice;
         "class": "param-input",
         value: "" + tolerance.max
       }))));
+    },
+    _: function() {
+      throw "Unsupported tolerance type `" + this._tag + "`";
     }
   });
   return module.exports = adt({
@@ -162,8 +165,10 @@ var __slice = [].slice;
         "class": "param-checkbox"
       }), html.span(String(label)))));
     },
-    tolerances: function(tolerances) {
-      return html.div.apply(html, [{
+    tolerances: function() {
+      var tolerances;
+      tolerances = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      return html.div({
         "class": "param-tolerance-table"
       }, html.div({
         "class": "param-tolerance-legend"
@@ -171,7 +176,12 @@ var __slice = [].slice;
         "class": "param-tolerance-legend-label"
       }, "Min"), html.span({
         "class": "param-tolerance-legend-label"
-      }, "Max"))].concat(__slice.call(adt.map(toleranceHTML, tolerances))));
+      }, "Max")), html.div.apply(html, [{
+        "class": "param-tolerance-body"
+      }].concat(__slice.call(adt.map(toleranceHTML, tolerances)))));
+    },
+    _: function() {
+      throw "Unsupported parameter type `" + this._tag + "`";
     }
   });
 })(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'), typeof html !== "undefined" && html !== null ? html : require('adt-html.js'));
