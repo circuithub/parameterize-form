@@ -6,7 +6,8 @@
   toleranceHTML = adt {
     real: (label, description, defaultTolerance) ->
       wrap html.div {class: "param-real", title: (escapeAttrib description)},
-        html.label {class: "param-label"}, String label
+        html.label {class: "param-label"}, 
+          html.span {class: "param-label-text"}, String label
           html.span {class: "param-real param-tolerance-min"}, html.input {class: "param-input", value: String defaultTolerance.min}
           html.span {class: "param-real param-tolerance-max"}, html.input {class: "param-input", value: String defaultTolerance.max}
     _: -> throw "Unsupported tolerance type `#{this._tag}`"
@@ -23,7 +24,8 @@
 
     real: (label, description, defaultValue) ->
       wrap html.div {class: "param-real", title: (escapeAttrib description)},
-        html.label {class: "param-label"}, String label
+        html.label {class: "param-label"},
+          html.span {class: "param-label-text"}, String label
           html.input {class: "param-input", value: String defaultValue}
 
     option: (label, description, options, defaultOption) ->
@@ -37,7 +39,7 @@
 
       wrap html.div {class: "param-real", title: (escapeAttrib description)},
         html.label {class: "param-label"},
-          html.span String label
+          html.span {class: "param-label-text"}, String label
           html.select {class: "param-select"},
             (for k,v of keyValue
               html.option {value: k, selected: (if k == defaultOption then true else undefined)}, v

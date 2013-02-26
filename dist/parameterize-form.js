@@ -72,6 +72,8 @@ var __slice = [].slice;
         title: escapeAttrib(description)
       }, html.label({
         "class": "param-label"
+      }, html.span({
+        "class": "param-label-text"
       }, String(label)), html.span({
         "class": "param-real param-tolerance-min"
       }, html.input({
@@ -82,7 +84,7 @@ var __slice = [].slice;
       }, html.input({
         "class": "param-input",
         value: String(defaultTolerance.max)
-      }))));
+      })))));
     },
     _: function() {
       throw "Unsupported tolerance type `" + this._tag + "`";
@@ -111,10 +113,12 @@ var __slice = [].slice;
         title: escapeAttrib(description)
       }, html.label({
         "class": "param-label"
+      }, html.span({
+        "class": "param-label-text"
       }, String(label)), html.input({
         "class": "param-input",
         value: String(defaultValue)
-      })));
+      }))));
     },
     option: function(label, description, options, defaultOption) {
       var k, keyValue, v;
@@ -140,7 +144,9 @@ var __slice = [].slice;
         title: escapeAttrib(description)
       }, html.label({
         "class": "param-label"
-      }, html.span(String(label)), html.select.apply(html, [{
+      }, html.span({
+        "class": "param-label-text"
+      }, String(label)), html.select.apply(html, [{
         "class": "param-select"
       }].concat(__slice.call((function() {
         var _results;
