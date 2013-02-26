@@ -37,6 +37,10 @@
   padding: 0 4px;
   margin: 0
 }
+.param-boolean .param-label {
+  cursor: pointer
+}
+
 .param-tolerance-label {
   width: 80px
 }
@@ -52,4 +56,19 @@
   display: inline-block;
   width: 81px;
   text-align: center;
+}
+.param-heading {
+  font-size: 12px;
+  text-align: left;
+  line-height: 1;
+  margin: 30px 10px 10px 5px;
+  border-left: 6px solid #fff;
+  padding-left: 4px;
+  text-transform: uppercase;
+  color: #4985ad;
+  white-space: nowrap;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  width: 220px
 }

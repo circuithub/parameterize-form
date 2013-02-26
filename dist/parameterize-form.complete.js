@@ -103,8 +103,8 @@ var __slice = [].slice;
       heading = arguments[0], children = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
       return wrap(html.section.apply(html, [{
         "class": "param-section"
-      }, html.h2({
-        "class": "param-header"
+      }, html.h1({
+        "class": "param-heading"
       }, String(heading))].concat(__slice.call(adt.map(this, children)))));
     },
     real: function(label, description, defaultValue) {

@@ -19,7 +19,7 @@
 
     section: (heading, children...) ->
       wrap html.section {class: "param-section"},
-        html.h2 {class: "param-header"}, String heading
+        html.h1 {class: "param-heading"}, String heading
         (adt.map @, children)...
 
     real: (label, description, defaultValue) ->
