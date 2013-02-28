@@ -39,7 +39,7 @@
 .param-composite-label {
   display: inline-block;
   color: #789;
-  font-style: italic;
+  font-style: italic
 }
 .param-composite-table {
   float: right
@@ -98,7 +98,8 @@
 .param-tolerance-legend-label {
   /*display: table-cell;*/
   display: inline-block;
-  text-align: center
+  text-align: center;
+  color: #789
 }
 .param-tolerance-body {
   clear: both;
