@@ -194,7 +194,7 @@ var __slice = [].slice;
       return wrapTolerance(html.div({
         "class": "param-numeric param-real",
         title: escapeAttrib(meta.description)
-      }, labeledToleranceInput(meta.label, defaultTolerance)));
+      }, toleranceTable(labeledToleranceInput(meta.label, defaultTolerance))));
     },
     dimension1: function(id, meta, defaultTolerance) {
       var _ref;
@@ -215,7 +215,7 @@ var __slice = [].slice;
       return wrapTolerance(html.div({
         "class": "param-numeric param-real",
         title: escapeAttrib(meta.description)
-      }, labeledToleranceInput(meta.label, defaultTolerance)));
+      }, toleranceTable(labeledToleranceInput(meta.label, defaultTolerance))));
     },
     dimension2: function(id, meta, defaultTolerance) {
       var _ref, _ref1;
@@ -242,14 +242,14 @@ var __slice = [].slice;
       if (!Array.isArray(defaultTolerance.max)) {
         defaultTolerance.max = [defaultTolerance.max, defaultTolerance.max, defaultTolerance.max];
       }
-      return wrapTolerance(html.div.apply(html, [{
+      return wrapTolerance(html.div({
         "class": "param-numeric param-dimension3",
         title: escapeAttrib(meta.description)
       }, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-label-text"
-      }, String(meta.label)))].concat(__slice.call(labeledToleranceInputs(2, meta.components, defaultTolerance)))));
+      }, String(meta.label))), toleranceTable.apply(null, labeledToleranceInputs(2, meta.components, defaultTolerance))));
     },
     dimension3: function(id, meta, defaultTolerance) {
       var _ref, _ref1;

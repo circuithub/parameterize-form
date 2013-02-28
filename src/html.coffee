@@ -54,14 +54,14 @@
       else if not meta.label? then meta.label = id
       meta.description ?= ""
       wrapTolerance html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
-        labeledToleranceInput meta.label, defaultTolerance
+        toleranceTable (labeledToleranceInput meta.label, defaultTolerance)
     dimension1: (id, meta, defaultTolerance) ->
       if typeof meta == 'string' then meta = {label: meta}
       else if not meta? then meta = {label: id}
       else if not meta.label? then meta.label = id
       meta.description ?= ""
       wrapTolerance html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
-        labeledToleranceInput meta.label, defaultTolerance
+        toleranceTable (labeledToleranceInput meta.label, defaultTolerance)
     dimension2: (id, meta, defaultTolerance) ->
       if typeof meta == 'string' then meta = {label: meta}
       else if not meta? then meta = {label: id}
@@ -73,7 +73,7 @@
       wrapTolerance html.div {class: "param-numeric param-dimension3", title: (escapeAttrib meta.description)},
         html.label {class: "param-composite-label"},
           html.span {class: "param-label-text"}, String meta.label
-        (labeledToleranceInputs 2, meta.components, defaultTolerance)...
+        toleranceTable (labeledToleranceInputs 2, meta.components, defaultTolerance)...
     dimension3: (id, meta, defaultTolerance) ->
       if typeof meta == 'string' then meta = {label: meta}
       else if not meta? then meta = {label: id}
