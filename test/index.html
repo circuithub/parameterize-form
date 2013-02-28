@@ -83,12 +83,12 @@
           _.tolerance(_.real("E", {description: "Extent of the package body Y-axis"}, {min: 5.8, max: 6.2})),
 
           _.dimension3("directBodyDim", // (without tolerance)
-            {label: "Package Body:", description: "Extent of the package body", components: ["D", "E", "F"]},
+            {label: "Package Body", description: "Extent of the package body", components: ["D", "E", "F"]},
             [6.0, 6.8, 2.2]),
 
           _.tolerance(
             _.dimension3("bodyDim", // (with tolerance)
-              {label: "Package Body:", description: "Extent of the package body", components: ["D", "E", "F"]},
+              {label: "Package Body", description: "Extent of the package body", components: ["D", "E", "F"]},
               {min: [5.8, 5.8, 2.0], max: [6.2, 6.2, 2.5]})
           )
 
