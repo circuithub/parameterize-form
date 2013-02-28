@@ -55,40 +55,46 @@
         _.section("Preferences",
 
           // environment
-          _.option("Enviroment",
-            "For BGA's, land pattern is determined empirically from the spec. Environment controls placement boundaries only.", 
+          _.option("environment",
+            {label: "Environment", description: "For BGA's, land pattern is determined empirically from the spec. Environment controls placement boundaries only."},
             ["Nominal(N)", "Most(M)", "Least(L)"]),
 
           // outline 
-          _.option("Outline Style",
-            "How should the keep-out area of the part be documented?",
+          _.option("outline",
+            {label: "Outline Style", description: "How should the keep-out area of the part be documented?"},
             ["Corners", "Package"]),
 
           // fiducials
-          _.option("Fiducials", 
-            "Fiducials are registration marks that improve the precision and yeild of assembly machinery.",
+          _.option("fiducials",
+            {label: "Fiducials", description: "Fiducials are registration marks that improve the precision and yeild of assembly machinery."},
             {'NE--SW': "North East & South West", 'NW--SE': "North East & South West", 'None': "None"},
-            'None'
-            )
+            'None')
 
         ), _.section("Overall Package",
 
-          _.tolerances(
-            _.real("D", "Extent of the package body X-axis", {min: 5.8, max: 6.2}),
-            _.real("E", "Extent of the package body X-axis", {min: 5.8, max: 6.2})
-          )
+          _.dimension3("directBodyDim",
+            {label: "Package Body (without tolerance)", description: "Extent of the package body", components: ["D", "E", "F"]},
+            [6.0, 6.8, 2.2])
+
+          /*_.tolerances(
+            _.dimension3("bodyDim", 
+            {label: "Package Body (with tolerance)", description: "Extent of the package body", components: ["D", "E", "F"]},
+            {min: [5.8, 5.8, 2.0], max: [6.2, 6.2, 2.5]})
+          )*/
 
         ), _.section("Balls",
 
           // collapsible
-          _.boolean("Collapsible Solder Balls",
-            "[IMPORTANT] Check the datasheet for ball type.\n" + 
-            "[ON] Non-Collapsible. Normally 0.5 mm pitch and smaller, where the Land (pad) is larger than the ball to provide an adequate annular ring.\n" +
-            "[OFF] Collapsible. Normally 0.65 mm pitch and higher, where the Land (pad) is smaller than the Ball size to allow the ball to collapse around the sides of the Land.",
+          _.boolean("collapsible", 
+            { label: "Collapsible Solder Balls",
+              description: "[IMPORTANT] Check the datasheet for ball type.\n" + 
+              "[ON] Non-Collapsible. Normally 0.5 mm pitch and smaller, where the Land (pad) is larger than the ball to provide an adequate annular ring.\n" +
+              "[OFF] Collapsible. Normally 0.65 mm pitch and higher, where the Land (pad) is smaller than the Ball size to allow the ball to collapse around the sides of the Land." 
+            },
             true),
 
           // b
-          _.real("b", "Ball Diameter", 0.001, 0.3)
+          _.real("b", "Ball Diameter", 0.3)
 
         )
       )
