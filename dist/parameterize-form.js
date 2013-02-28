@@ -130,15 +130,30 @@ var __slice = [].slice;
     }
   };
   toleranceHTML = adt({
-    real: function(label, description, defaultTolerance) {
+    real: function(id, meta, defaultTolerance) {
+      var _ref;
+      if (typeof meta === 'string') {
+        meta = {
+          label: meta
+        };
+      } else if (!(meta != null)) {
+        meta = {
+          label: id
+        };
+      } else if (!(meta.label != null)) {
+        meta.label = id;
+      }
+      if ((_ref = meta.description) == null) {
+        meta.description = "";
+      }
       return wrap(html.div({
         "class": "param-numeric param-real",
-        title: escapeAttrib(description)
+        title: escapeAttrib(meta.description)
       }, html.label({
         "class": "param-label"
       }, html.span({
         "class": "param-label-text"
-      }, String(label)), html.span({
+      }, String(meta.label)), html.span({
         "class": "param-real param-tolerance-min"
       }, html.input({
         "class": "param-input",
@@ -150,7 +165,7 @@ var __slice = [].slice;
         value: String(defaultTolerance.max)
       })))));
     },
-    dimension1: function(label, description, defaultTolerance) {
+    dimension1: function(id, meta, defaultTolerance) {
       return wrap(html.div({
         "class": "param-numeric param-real",
         title: escapeAttrib(description)
@@ -173,8 +188,36 @@ var __slice = [].slice;
     dimension2: function() {
       throw "Unsupported tolerance type `" + this._tag + "` (TODO)";
     },
-    dimension3: function() {
-      throw "Unsupported tolerance type `" + this._tag + "` (TODO)";
+    dimension3: function(id, meta, defaultValue) {
+      var _ref, _ref1;
+      if (typeof meta === 'string') {
+        meta = {
+          label: meta
+        };
+      } else if (!(meta != null)) {
+        meta = {
+          label: id
+        };
+      } else if (!(meta.label != null)) {
+        meta.label = id;
+      }
+      if ((_ref = meta.description) == null) {
+        meta.description = "";
+      }
+      if ((_ref1 = meta.components) == null) {
+        meta.components = ["X", "Y", "Z"];
+      }
+      if (!Array.isArray(defaultValue)) {
+        defaultValue = [defaultValue, defaultValue, defaultValue];
+      }
+      return wrap(html.div.apply(html, [{
+        "class": "param-numeric param-dimension3",
+        title: escapeAttrib(meta.description)
+      }, html.label({
+        "class": "param-composite-label"
+      }, html.span({
+        "class": "param-label-text"
+      }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, false)))));
     },
     vector2: function() {
       throw "Unsupported tolerance type `" + this._tag + "` (TODO)";
@@ -236,6 +279,12 @@ var __slice = [].slice;
         meta = {
           label: meta
         };
+      } else if (!(meta != null)) {
+        meta = {
+          label: id
+        };
+      } else if (!(meta.label != null)) {
+        meta.label = id;
       }
       if ((_ref = meta.description) == null) {
         meta.description = "";
@@ -252,12 +301,18 @@ var __slice = [].slice;
         value: String(defaultValue)
       }))));
     },
-    dimension1: function() {
-      var meta, _ref;
+    dimension1: function(id, meta, defaultValue) {
+      var _ref;
       if (typeof meta === 'string') {
         meta = {
           label: meta
         };
+      } else if (!(meta != null)) {
+        meta = {
+          label: id
+        };
+      } else if (!(meta.label != null)) {
+        meta.label = id;
       }
       if ((_ref = meta.description) == null) {
         meta.description = "";
@@ -274,12 +329,18 @@ var __slice = [].slice;
         value: String(defaultValue)
       }))));
     },
-    dimension2: function() {
-      var defaultValue, meta, shortLabels, _ref, _ref1;
+    dimension2: function(id, meta, defaultValue) {
+      var shortLabels, _ref, _ref1;
       if (typeof meta === 'string') {
         meta = {
           label: meta
         };
+      } else if (!(meta != null)) {
+        meta = {
+          label: id
+        };
+      } else if (!(meta.label != null)) {
+        meta.label = id;
       }
       if ((_ref = meta.description) == null) {
         meta.description = "";
@@ -306,6 +367,12 @@ var __slice = [].slice;
         meta = {
           label: meta
         };
+      } else if (!(meta != null)) {
+        meta = {
+          label: id
+        };
+      } else if (!(meta.label != null)) {
+        meta.label = id;
       }
       if ((_ref = meta.description) == null) {
         meta.description = "";
@@ -380,6 +447,12 @@ var __slice = [].slice;
         meta = {
           label: meta
         };
+      } else if (!(meta != null)) {
+        meta = {
+          label: id
+        };
+      } else if (!(meta.label != null)) {
+        meta.label = id;
       }
       if ((_ref = meta.description) == null) {
         meta.description = "";
@@ -425,6 +498,12 @@ var __slice = [].slice;
         meta = {
           label: meta
         };
+      } else if (!(meta != null)) {
+        meta = {
+          label: id
+        };
+      } else if (!(meta.label != null)) {
+        meta.label = id;
       }
       if ((_ref = meta.description) == null) {
         meta.description = "";
@@ -437,7 +516,9 @@ var __slice = [].slice;
       }, html.input({
         type: "checkbox",
         "class": "param-checkbox"
-      }), html.span("param-label-text", String(meta.label)))));
+      }), html.span({
+        "class": "param-label-text"
+      }, String(meta.label)))));
     },
     tolerances: function() {
       var tolerances;

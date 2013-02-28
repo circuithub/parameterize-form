@@ -72,15 +72,26 @@
 
         ), _.section("Overall Package",
 
+
+          _.tolerances(
+            _.real("D", "D (no meta)", {min: 5.8, max: 6.2}),
+            _.real("E", "E (no meta)", {min: 5.8, max: 6.2})
+          ),
+
+          _.tolerances(
+            _.real("D", {description: "Extent of the package body X-axis"}, {min: 5.8, max: 6.2}),
+            _.real("E", {description: "Extent of the package body Y-axis"}, {min: 5.8, max: 6.2})
+          ),
+
           _.dimension3("directBodyDim",
             {label: "Package Body (without tolerance)", description: "Extent of the package body", components: ["D", "E", "F"]},
-            [6.0, 6.8, 2.2])
+            [6.0, 6.8, 2.2]),
 
-          /*_.tolerances(
+          _.tolerances(
             _.dimension3("bodyDim", 
-            {label: "Package Body (with tolerance)", description: "Extent of the package body", components: ["D", "E", "F"]},
-            {min: [5.8, 5.8, 2.0], max: [6.2, 6.2, 2.5]})
-          )*/
+              {label: "Package Body (with tolerance)", description: "Extent of the package body", components: ["D", "E", "F"]},
+              {min: [5.8, 5.8, 2.0], max: [6.2, 6.2, 2.5]})
+          )
 
         ), _.section("Balls",
 
