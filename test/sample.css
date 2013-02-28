@@ -16,6 +16,7 @@
 }
 .param-composite-table {
   float: right;
+  margin-bottom: 15px;
 }
 .param-composite-th .param-label {
   text-align: center;
@@ -51,6 +52,9 @@
 }
 .param-boolean .param-label {
   cursor: pointer
+}
+.param-tolerance-table {
+  margin-bottom: 15px;
 }
 .param-tolerance-label {
   width: 80px
