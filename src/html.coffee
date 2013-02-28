@@ -30,6 +30,12 @@
               (for i in [0...n]
                 html.td {class: "param-composite-td"}, html.input {class: "param-input", value: String values[i]})...
       ]
+  labeledToleranceInput = (label, tolerance) ->
+    labeledElements label, 
+      html.input {class: "param-input", value: String tolerance.min}
+      html.input {class: "param-input", value: String tolerance.max}
+  labeledToleranceInputs = (n, labels, tolerances) ->
+    (labeledToleranceInput labels[i], {min: tolerances.min[i], max: tolerances.max[i]}) for i in [0...n]
 
   # Toleranced values
   toleranceHTML = adt {
@@ -39,28 +45,31 @@
       else if not meta.label? then meta.label = id
       meta.description ?= ""
       wrap html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
-        html.label {class: "param-label"}, 
-          html.span {class: "param-label-text"}, String meta.label
+        labeledElements meta.label,
           html.span {class: "param-real param-tolerance-min"}, html.input {class: "param-input", value: String defaultTolerance.min}
           html.span {class: "param-real param-tolerance-max"}, html.input {class: "param-input", value: String defaultTolerance.max}
     dimension1: (id, meta, defaultTolerance) ->
-      wrap html.div {class: "param-numeric param-real", title: (escapeAttrib description)},
-        html.label {class: "param-label"}, 
-          html.span {class: "param-label-text"}, String label
+      if typeof meta == 'string' then meta = {label: meta}
+      else if not meta? then meta = {label: id}
+      else if not meta.label? then meta.label = id
+      meta.description ?= ""
+      wrap html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
+        labeledElements meta.label,
           html.span {class: "param-real param-tolerance-min"}, html.input {class: "param-input", value: String defaultTolerance.min}
           html.span {class: "param-real param-tolerance-max"}, html.input {class: "param-input", value: String defaultTolerance.max}
     dimension2: -> throw "Unsupported tolerance type `#{this._tag}` (TODO)"
-    dimension3: (id, meta, defaultValue) ->
+    dimension3: (id, meta, defaultTolerance) ->
       if typeof meta == 'string' then meta = {label: meta}
       else if not meta? then meta = {label: id}
       else if not meta.label? then meta.label = id
       meta.description ?= ""
       meta.components ?= ["X","Y","Z"]
-      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
+      if not Array.isArray defaultTolerance.min then defaultTolerance.min = [defaultTolerance.min, defaultTolerance.min, defaultTolerance.min]
+      if not Array.isArray defaultTolerance.max then defaultTolerance.max = [defaultTolerance.max, defaultTolerance.max, defaultTolerance.max]
       wrap html.div {class: "param-numeric param-dimension3", title: (escapeAttrib meta.description)},
         html.label {class: "param-composite-label"},
           html.span {class: "param-label-text"}, String meta.label
-        (labeledInputs 3, meta.components, defaultValue, false)...
+        (labeledToleranceInputs 3, meta.components, defaultTolerance)...
     vector2: -> throw "Unsupported tolerance type `#{this._tag}` (TODO)"
     vector3: -> throw "Unsupported tolerance type `#{this._tag}` (TODO)"
     point2: -> throw "Unsupported tolerance type `#{this._tag}` (TODO)"
