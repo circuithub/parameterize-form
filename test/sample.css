@@ -1,12 +1,27 @@
+/* Clearfix comes from twitter bootstrap */
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+.clearfix:after {
+  clear: both;
+}
+
+/* Form styling */
 .parameters {
   position: relative;
   width: 300px;
 }
 .parameter {
   clear: both;
+  margin: 4px 0
 }
 .param-label,.param-composite-label {
-  display: block;
   padding-left: 5px;
   padding-right: 5px;
   color: #4985ad;
@@ -14,15 +29,24 @@
   text-align: right;
   margin: 0
 }
+.param-label {
+  display: block
+}
+.param-composite,.param-tolerance {
+  margin: 10px 0
+}
+.param-composite-label {
+  display: inline-block
+}
 .param-composite-table {
-  float: right;
-  margin-bottom: 15px;
+  float: right
 }
 .param-composite-th .param-label {
   text-align: center;
 }
 .param-numeric .param-input {
-  width: 60px
+  width: 60px;
+  margin: 0 2px
 }
 .param-input.calculation-error { 
   background-color: #fdd;
@@ -54,14 +78,12 @@
   cursor: pointer
 }
 .param-tolerance-table {
-  margin-bottom: 15px;
+  float: right
 }
 .param-tolerance-label {
   width: 80px
 }
 .param-tolerance-legend {
-  clear: both;
-  float: right;
   font-weight: 400;
   text-transform: uppercase;
   color: #4985ad;
@@ -71,7 +93,7 @@
   /*display: table-cell;*/
   display: inline-block;
   width: 60px;
-  text-align: center;
+  text-align: center
 }
 .param-heading {
   font-size: 12px;
