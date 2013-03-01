@@ -1,3 +1,8 @@
+/*
+ * Copyright 2013, CircuitHub.com
+ */
+var parameterize = parameterize || {}; /* Redeclaring parameterize is fine: behaves like a no-op (https://developer.mozilla.org/en/JavaScript/Reference/Scope_Cheatsheet) */
+
 
 (function(/*! Stitch !*/) {
   if (!this.require) {
@@ -604,7 +609,11 @@ var __slice = [].slice;
   form.get = function(formElement) {};
   form.set = function(formElement, form) {};
   form.on = function(eventKey, callback) {};
-  return module.exports = form;
+  module.exports = form;
+  if (typeof parameterize === 'object') {
+    parameterize.form = form.form;
+    return parameterize.html = form.html;
+  }
 })(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'));
 }, "adt-html.js": function(exports, require, module) {/*
  * adt-html.js - Algebraic Data Types for JavaScript

@@ -21,21 +21,24 @@ Tasks
 
 pack = (callback) ->
   pkg = stitch.createPackage paths: ["#{__dirname}/build"]
-  pkg.compile (err, source) ->
-    fs.writeFile "dist/parameterize-form.js", source, (err) ->
-      if err
-        throw err
-      console.log "Stitched parameterize-form.js"
-      #ast = uglify.parser.parse source
-      #ast = uglify.uglify.ast_squeeze ast
-      #uglified_source = uglify.uglify.gen_code ast
-      ###
-      shasum = crypto.createHash("sha1")
-      shasum.update(uglified_source)
-      ###
-      #fs.writeFileSync libAssetPath, uglified_source
-      #fs.writeFileSync libAssetPath, source
-      callback?()
+  pkg.compile (err, sourceContents) ->
+    # Concatenate the header
+    fs.readFile "src/header.js", 'utf8', (err, headerContents) ->
+      throw err if err
+      # Write the output file
+      fs.writeFile "dist/parameterize-form.js", (headerContents + sourceContents), (err) ->
+        throw err if err
+        console.log "Stitched parameterize-form.js"
+        #ast = uglify.parser.parse source
+        #ast = uglify.uglify.ast_squeeze ast
+        #uglified_source = uglify.uglify.gen_code ast
+        ###
+        shasum = crypto.createHash("sha1")
+        shasum.update(uglified_source)
+        ###
+        #fs.writeFileSync libAssetPath, uglified_source
+        #fs.writeFileSync libAssetPath, source
+        callback?()
 
 packComplete = (callback) ->
   cp = (ipath, opath, cb) ->
@@ -46,21 +49,24 @@ packComplete = (callback) ->
     cp "#{__dirname}/node_modules/adt-html.js/dist/adt-html.js", "#{__dirname}/vendor/adt-html.js", ->
       cp "#{__dirname}/node_modules/parameterize-adt/dist/parameterize-adt.js", "#{__dirname}/vendor/parameterize-adt.js", ->
         pkg = stitch.createPackage paths: ["#{__dirname}/build", "#{__dirname}/vendor"]
-        pkg.compile (err, source) ->
-          fs.writeFile "dist/parameterize-form.complete.js", source, (err) ->
-            if err
-              throw err
-            console.log "Stitched parameterize-form.complete.js"
-            #ast = uglify.parser.parse source
-            #ast = uglify.uglify.ast_squeeze ast
-            #uglified_source = uglify.uglify.gen_code ast
-            ###
-            shasum = crypto.createHash("sha1")
-            shasum.update(uglified_source)
-            ###
-            #fs.writeFileSync libAssetPath, uglified_source
-            #fs.writeFileSync libAssetPath, source
-            callback?()
+        pkg.compile (err, sourceContents) ->
+          # Concatenate the header
+          fs.readFile "src/header.js", 'utf8', (err, headerContents) ->
+            throw err if err
+            # Write the output file
+            fs.writeFile "dist/parameterize-form.complete.js", (headerContents + sourceContents), (err) ->
+              throw err if err
+              console.log "Stitched parameterize-form.complete.js"
+              #ast = uglify.parser.parse source
+              #ast = uglify.uglify.ast_squeeze ast
+              #uglified_source = uglify.uglify.gen_code ast
+              ###
+              shasum = crypto.createHash("sha1")
+              shasum.update(uglified_source)
+              ###
+              #fs.writeFileSync libAssetPath, uglified_source
+              #fs.writeFileSync libAssetPath, source
+              callback?()
 
 build = (callback) ->
   options = ['-c','-b', '-o', 'build', 'src']

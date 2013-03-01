@@ -18,6 +18,12 @@
   form.on = (eventKey, callback) ->
     # TODO
 
+  # Export this module for nodejs
   module.exports = form
+
+  # Assign this library to a global variable if a global variable is defined
+  if typeof parameterize == 'object'
+    parameterize.form = form.form
+    parameterize.html = form.html
 
 ) (adt ? require 'adt.js')
