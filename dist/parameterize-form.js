@@ -2,6 +2,8 @@
  * Copyright 2013, CircuitHub.com
  */
 var parameterize = parameterize || {}; /* Redeclaring parameterize is fine: behaves like a no-op (https://developer.mozilla.org/en/JavaScript/Reference/Scope_Cheatsheet) */
+(function(){
+var originalRequire = this.require || (void 0);
 
 
 (function(/*! Stitch !*/) {
@@ -609,10 +611,18 @@ var __slice = [].slice;
   form.get = function(formElement) {};
   form.set = function(formElement, form) {};
   form.on = function(eventKey, callback) {};
-  module.exports = form;
-  if (typeof parameterize === 'object') {
-    parameterize.form = form.form;
-    return parameterize.html = form.html;
-  }
+  return module.exports = form;
 })(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'));
 }});
+
+// Assign this library to a global variable if a global variable is defined
+var parameterizeExports = this.require("parameterize-form");
+parameterize.form = parameterizeExports.form;
+parameterize.html = parameterizeExports.html;
+// Restore the original require method
+if (typeof originalRequire === 'undefined')
+  delete this.require;
+else
+  this.require = originalRequire;
+})();
+
