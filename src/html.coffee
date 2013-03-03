@@ -151,7 +151,7 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
-    vector2: ->
+    vector2: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
@@ -161,7 +161,7 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
-    vector3: ->
+    vector3: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
@@ -171,7 +171,7 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
-    point2: ->
+    point2: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
@@ -181,7 +181,7 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
-    point3: ->
+    point3: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
@@ -191,14 +191,14 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
-    pitch1: ->
+    pitch1: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       wrap html.div {class: "param-numeric param-pitch1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
           html.input {class: "param-input", value: String defaultValue}
 
-    pitch2: ->
+    pitch2: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
@@ -208,7 +208,7 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
-    pitch3: ->
+    pitch3: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
@@ -218,26 +218,26 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
-    angle: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    angle: (id, meta, defaultValue) -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
 
-    polar: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    polar: (id, meta, defaultValue) -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
 
-    cylindrical: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    cylindrical: (id, meta, defaultValue) -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
 
-    spherical: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    spherical: (id, meta, defaultValue) -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
     
-    integer: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    integer: (id, meta, defaultValue) -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
 
-    natural: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    natural: (id, meta, defaultValue) -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
 
-    latice1: ->
+    latice1: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       wrap html.div {class: "param-numeric param-latice1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
           html.input {class: "param-input", value: String defaultValue}
 
-    latice2: ->
+    latice2: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
@@ -247,7 +247,7 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
-    latice3: ->
+    latice3: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength

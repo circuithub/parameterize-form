@@ -432,8 +432,8 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels)))));
     },
-    vector2: function() {
-      var defaultValue, meta, shortLabels, _ref;
+    vector2: function(id, meta, defaultValue) {
+      var shortLabels, _ref;
       meta = resolveMeta(id, meta);
       if ((_ref = meta.components) == null) {
         meta.components = ["X", "Y"];
@@ -451,8 +451,8 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels)))));
     },
-    vector3: function() {
-      var defaultValue, meta, shortLabels, _ref;
+    vector3: function(id, meta, defaultValue) {
+      var shortLabels, _ref;
       meta = resolveMeta(id, meta);
       if ((_ref = meta.components) == null) {
         meta.components = ["X", "Y", "Z"];
@@ -470,8 +470,8 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels)))));
     },
-    point2: function() {
-      var defaultValue, meta, shortLabels, _ref;
+    point2: function(id, meta, defaultValue) {
+      var shortLabels, _ref;
       meta = resolveMeta(id, meta);
       if ((_ref = meta.components) == null) {
         meta.components = ["X", "Y"];
@@ -489,8 +489,8 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels)))));
     },
-    point3: function() {
-      var defaultValue, meta, shortLabels, _ref;
+    point3: function(id, meta, defaultValue) {
+      var shortLabels, _ref;
       meta = resolveMeta(id, meta);
       if ((_ref = meta.components) == null) {
         meta.components = ["X", "Y", "Z"];
@@ -508,8 +508,7 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels)))));
     },
-    pitch1: function() {
-      var meta;
+    pitch1: function(id, meta, defaultValue) {
       meta = resolveMeta(id, meta);
       return wrap(html.div({
         "class": "param-numeric param-pitch1",
@@ -523,8 +522,8 @@ var __slice = [].slice;
         value: String(defaultValue)
       }))));
     },
-    pitch2: function() {
-      var defaultValue, meta, shortLabels, _ref;
+    pitch2: function(id, meta, defaultValue) {
+      var shortLabels, _ref;
       meta = resolveMeta(id, meta);
       if ((_ref = meta.components) == null) {
         meta.components = ["X", "Y"];
@@ -542,8 +541,8 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels)))));
     },
-    pitch3: function() {
-      var defaultValue, meta, shortLabels, _ref;
+    pitch3: function(id, meta, defaultValue) {
+      var shortLabels, _ref;
       meta = resolveMeta(id, meta);
       if ((_ref = meta.components) == null) {
         meta.components = ["X", "Y", "Z"];
@@ -561,26 +560,25 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels)))));
     },
-    angle: function() {
+    angle: function(id, meta, defaultValue) {
       throw "Unsupported parameter type `" + this._tag + "` (TODO)";
     },
-    polar: function() {
+    polar: function(id, meta, defaultValue) {
       throw "Unsupported parameter type `" + this._tag + "` (TODO)";
     },
-    cylindrical: function() {
+    cylindrical: function(id, meta, defaultValue) {
       throw "Unsupported parameter type `" + this._tag + "` (TODO)";
     },
-    spherical: function() {
+    spherical: function(id, meta, defaultValue) {
       throw "Unsupported parameter type `" + this._tag + "` (TODO)";
     },
-    integer: function() {
+    integer: function(id, meta, defaultValue) {
       throw "Unsupported parameter type `" + this._tag + "` (TODO)";
     },
-    natural: function() {
+    natural: function(id, meta, defaultValue) {
       throw "Unsupported parameter type `" + this._tag + "` (TODO)";
     },
-    latice1: function() {
-      var meta;
+    latice1: function(id, meta, defaultValue) {
       meta = resolveMeta(id, meta);
       return wrap(html.div({
         "class": "param-numeric param-latice1",
@@ -594,8 +592,8 @@ var __slice = [].slice;
         value: String(defaultValue)
       }))));
     },
-    latice2: function() {
-      var defaultValue, meta, shortLabels, _ref;
+    latice2: function(id, meta, defaultValue) {
+      var shortLabels, _ref;
       meta = resolveMeta(id, meta);
       if ((_ref = meta.components) == null) {
         meta.components = ["X", "Y"];
@@ -613,8 +611,8 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels)))));
     },
-    latice3: function() {
-      var defaultValue, meta, shortLabels, _ref;
+    latice3: function(id, meta, defaultValue) {
+      var shortLabels, _ref;
       meta = resolveMeta(id, meta);
       if ((_ref = meta.components) == null) {
         meta.components = ["X", "Y", "Z"];
