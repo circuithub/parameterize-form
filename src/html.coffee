@@ -100,6 +100,13 @@
     _: -> throw "Unsupported tolerance type `#{this._tag}`"
   }
 
+  resolveMeta = (id, meta) -> 
+    if typeof meta == 'string' then meta = {label: meta}
+    else if not meta? then meta = {label: id}
+    else meta.label ?= id
+    meta.description ?= ""
+    return meta
+
   # Parameters
   module.exports = adt {
     parameters: (description, children...) -> 
@@ -111,30 +118,21 @@
         (adt.map @, children)...
 
     real: (id, meta, defaultValue) ->
-      if typeof meta == 'string' then meta = {label: meta}
-      else if not meta? then meta = {label: id}
-      else if not meta.label? then meta.label = id
-      meta.description ?= ""
+      meta = resolveMeta id, meta
       wrap html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
           html.input {class: "param-input", value: String defaultValue}
 
     dimension1: (id, meta, defaultValue) ->
-      if typeof meta == 'string' then meta = {label: meta}
-      else if not meta? then meta = {label: id}
-      else if not meta.label? then meta.label = id
-      meta.description ?= ""
+      meta = resolveMeta id, meta
       wrap html.div {class: "param-numeric param-dimension1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
           html.input {class: "param-input", value: String defaultValue}
 
     dimension2: (id, meta, defaultValue) ->
-      if typeof meta == 'string' then meta = {label: meta}
-      else if not meta? then meta = {label: id}
-      else if not meta.label? then meta.label = id
-      meta.description ?= ""
+      meta = resolveMeta id, meta
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
@@ -144,10 +142,7 @@
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
     dimension3: (id, meta, defaultValue) ->
-      if typeof meta == 'string' then meta = {label: meta}
-      else if not meta? then meta = {label: id}
-      else if not meta.label? then meta.label = id
-      meta.description ?= ""
+      meta = resolveMeta id, meta
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
@@ -156,19 +151,72 @@
           html.span {class: "param-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
-    vector2: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    vector2: ->
+      meta = resolveMeta id, meta
+      meta.components ?= ["X","Y"]
+      shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
+      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
+      wrapComposite html.div {class: "param-numeric param-vector2", title: (escapeAttrib meta.description)},
+        html.label {class: "param-composite-label"},
+          html.span {class: "param-label-text"}, String meta.label
+        (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
-    vector3: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    vector3: ->
+      meta = resolveMeta id, meta
+      meta.components ?= ["X","Y","Z"]
+      shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
+      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
+      wrapComposite html.div {class: "param-numeric param-vector3", title: (escapeAttrib meta.description)},
+        html.label {class: "param-composite-label"},
+          html.span {class: "param-label-text"}, String meta.label
+        (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
-    point2: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    point2: ->
+      meta = resolveMeta id, meta
+      meta.components ?= ["X","Y"]
+      shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
+      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
+      wrapComposite html.div {class: "param-numeric param-point2", title: (escapeAttrib meta.description)},
+        html.label {class: "param-composite-label"},
+          html.span {class: "param-label-text"}, String meta.label
+        (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
-    point3: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    point3: ->
+      meta = resolveMeta id, meta
+      meta.components ?= ["X","Y","Z"]
+      shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
+      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
+      wrapComposite html.div {class: "param-numeric param-point3", title: (escapeAttrib meta.description)},
+        html.label {class: "param-composite-label"},
+          html.span {class: "param-label-text"}, String meta.label
+        (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
-    pitch1: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    pitch1: ->
+      meta = resolveMeta id, meta
+      wrap html.div {class: "param-numeric param-pitch1", title: (escapeAttrib meta.description)},
+        html.label {class: "param-label"},
+          html.span {class: "param-label-text"}, String meta.label
+          html.input {class: "param-input", value: String defaultValue}
 
-    pitch2: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    pitch2: ->
+      meta = resolveMeta id, meta
+      meta.components ?= ["X","Y"]
+      shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
+      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
+      wrapComposite html.div {class: "param-numeric param-pitch2", title: (escapeAttrib meta.description)},
+        html.label {class: "param-composite-label"},
+          html.span {class: "param-label-text"}, String meta.label
+        (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
-    pitch3: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    pitch3: ->
+      meta = resolveMeta id, meta
+      meta.components ?= ["X","Y","Z"]
+      shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
+      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
+      wrapComposite html.div {class: "param-numeric param-pitch3", title: (escapeAttrib meta.description)},
+        html.label {class: "param-composite-label"},
+          html.span {class: "param-label-text"}, String meta.label
+        (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
     angle: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
 
@@ -182,11 +230,32 @@
 
     natural: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
 
-    latice1: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    latice1: ->
+      meta = resolveMeta id, meta
+      wrap html.div {class: "param-numeric param-latice1", title: (escapeAttrib meta.description)},
+        html.label {class: "param-label"},
+          html.span {class: "param-label-text"}, String meta.label
+          html.input {class: "param-input", value: String defaultValue}
 
-    latice2: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    latice2: ->
+      meta = resolveMeta id, meta
+      meta.components ?= ["X","Y"]
+      shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
+      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
+      wrapComposite html.div {class: "param-numeric param-latice2", title: (escapeAttrib meta.description)},
+        html.label {class: "param-composite-label"},
+          html.span {class: "param-label-text"}, String meta.label
+        (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
-    latice3: -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
+    latice3: ->
+      meta = resolveMeta id, meta
+      meta.components ?= ["X","Y","Z"]
+      shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
+      if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
+      wrapComposite html.div {class: "param-numeric param-latice3", title: (escapeAttrib meta.description)},
+        html.label {class: "param-composite-label"},
+          html.span {class: "param-label-text"}, String meta.label
+        (labeledInputs 3, meta.components, defaultValue, shortLabels)...
     
     option: (id, meta, options, defaultOption) ->
       if typeof meta == 'string' then meta = {label: meta}
