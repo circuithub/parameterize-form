@@ -165,7 +165,7 @@ var __slice = [].slice;
         "class": "param-tolerance-th",
         scope: "row"
       }, html.label({
-        "class": "param-label"
+        "class": "param-label param-label-text"
       }, label)), html.td(html.input({
         "class": "param-input",
         type: 'text',
@@ -302,11 +302,18 @@ var __slice = [].slice;
         defaultTolerance.max = [defaultTolerance.max, defaultTolerance.max, defaultTolerance.max];
       }
       trs = !(meta.label != null) ? [] : [
-        html.tr(html.th({
+        html.tr({}, html.th({
           "class": "param-composite-label",
-          colspan: 3,
           scope: "rowgroup"
-        }, escapeAttrib(meta.label)))
+        }, html.span({
+          "class": "param-composite-label-text"
+        }, escapeAttrib(meta.label))), html.th({
+          "class": "param-tolerance-legend",
+          scope: "col"
+        }, "Min"), html.th({
+          "class": "param-tolerance-legend",
+          scope: "col"
+        }, "Max"))
       ];
       trs = trs.concat((function() {
         var _i, _len, _ref2, _results;
@@ -443,7 +450,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-dimension2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels))));
     },
     dimension3: function(id, meta, defaultValue) {
@@ -459,7 +466,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-dimension3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels))));
     },
     vector2: function(id, meta, defaultValue) {
@@ -475,7 +482,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-vector2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels))));
     },
     vector3: function(id, meta, defaultValue) {
@@ -491,7 +498,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-vector3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels))));
     },
     point2: function(id, meta, defaultValue) {
@@ -507,7 +514,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-point2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels))));
     },
     point3: function(id, meta, defaultValue) {
@@ -523,7 +530,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-point3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels))));
     },
     pitch1: function(id, meta, defaultValue) {
@@ -554,7 +561,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-pitch2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels))));
     },
     pitch3: function(id, meta, defaultValue) {
@@ -570,7 +577,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-pitch3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels))));
     },
     angle: function(id, meta, defaultValue) {
@@ -619,7 +626,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-latice2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(2, meta.components, defaultValue, shortLabels))));
     },
     latice3: function(id, meta, defaultValue) {
@@ -635,7 +642,7 @@ var __slice = [].slice;
       return wrapComposite.apply(null, ["param-numeric param-latice3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
-        "class": "param-label-text"
+        "class": "param-composite-label-text"
       }, String(meta.label)))].concat(__slice.call(labeledInputs(3, meta.components, defaultValue, shortLabels))));
     },
     option: function(id, meta, options, defaultOption) {
@@ -724,13 +731,21 @@ var __slice = [].slice;
       ii = NaN;
       for (i = _i = 0, _len = rowgroups.length; _i < _len; i = ++_i) {
         rowgroup = rowgroups[i];
-        if (rowgroup._tag === "tr") {
+        if (rowgroup.tagName.toLowerCase() === "tr") {
           if (ii === i - 1) {
-            tbodies[tbodies.length - 1].push(rowgroup);
+            tbodies[tbodies.length - 1].appendChild(rowgroup);
           } else {
             tbodies.push(html.tbody({
               "class": ""
-            }, rowgroup));
+            }, html.tr({}, html.th({
+              scope: "rowgroup"
+            }, ""), html.th({
+              "class": "param-tolerance-legend",
+              scope: "col"
+            }, "Min"), html.th({
+              "class": "param-tolerance-legend",
+              scope: "col"
+            }, "Max")), rowgroup));
           }
           ii = i;
         } else {
@@ -741,17 +756,7 @@ var __slice = [].slice;
         "class": "parameter-set"
       }, html.table.apply(html, [{
         "class": "param-tolerance-table"
-      }, html.thead({
-        "class": "param-tolerance-thead"
-      }, html.tr({
-        "class": "param-tolerance-legend"
-      }, html.th({
-        "class": "param-tolerance-th"
-      }), html.th({
-        "class": "param-tolerance-th"
-      }, "Min"), html.th({
-        "class": "param-tolerance-th"
-      }, "Max")))].concat(__slice.call(tbodies))));
+      }].concat(__slice.call(tbodies))));
     },
     range: function(id, meta, defaultValue, range) {
       throw "Unsupported parameter type `" + this._tag + "` (TODO)";

@@ -2,21 +2,16 @@
 .parameters {
   background: #efe8e2;
   width: 234px;
-  box-sizing: content-box;
   margin: 20px auto;
   padding: 2px;
+  box-sizing: content-box;
+  -moz-box-sizing: border-box
 }
 
 /* Form styling */
-/*
-.parameters {
-  position: relative;  
-}*/
 .param-heading {
   font-size: 12px;
-  /*text-align: left;*/
   line-height: 1;
-  /*margin: 30px 10px 10px 5px;*/
   margin: 2em 1em 1em 1em;
   border-left: 6px solid #fff;
   padding-left: .5em;
@@ -33,16 +28,17 @@
 .param-select {
   width: 100px;
   height: 1.8em;
-  /*height: 30px;*/
   padding: 0 4px;
   margin: 4px 4px;
-  box-sizing: border-box
+  box-sizing: border-box;
+  -moz-box-sizing: border-box
 }
 .param-numeric .param-input {
   width: 60px;
   height: 1.8em;
   margin: 2px 4px;
-  box-sizing: border-box
+  box-sizing: border-box;
+  -moz-box-sizing: border-box
 }
 .param-checkbox[type="checkbox"] {
   margin: 6px 4px;
@@ -56,13 +52,13 @@
   margin: 0
 }
 .param-label-text {
-  margin: 0 8px 0 0;
+  margin: 0 8px 0 0
 }
 .param-composite-label {
-  line-height: 1;
-  margin: 1em 0 0 0;
+  font-size: 11px;
+  margin: 0;
   font-weight: 100;
-  color: #999d9f; /* #789;*/
+  color: rgb(163, 180, 192);
   font-style: italic;
   text-align: left;
   white-space: nowrap;
@@ -70,55 +66,30 @@
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis
 }
-/*
-.param-label {
-  display: block
-}
-.param-label .param-label-text {
+.param-composite-label-text {
+  vertical-align: bottom;
   display: inline-block;
-  padding: 0 5px 0 0
+  margin: 2em 0 0 5px;
+  line-height: 1
 }
-.param-composite-table {
-  /*float: right* /
+.param-composite-label .param-composite-label-text {
+  max-width: 85px
 }
-.param-composite-th .param-label {
-  text-align: center;
-}
-.param-numeric .param-input {
-  width: 60px;
-  margin: 0 2px;
-  box-sizing: border-box
-}
-.param-input.calculation-error { 
-  background-color: #fdd;
-  /*border: 1px solid #f00* /
-  border: 1px solid #888
-}
-/*
-.param-tolerance-value {
-  vertical-align: top;
-  width: 80px;
-  padding: 0 4px
-}
-.param-tolerance-value .param-input {
-  width: 70px;
-}
-.param-tolerance-table{display:table;margin-top:12px;margin-bottom:0}
-.param-tolerance-spacer{display:table-cell;width:79px}
-* /
-.param-boolean .param-label {
-  cursor: pointer
-}*/
-.param-tolerance-table {
+.param-tolerance-table, .param-composite-table {
   display: inline-table
+}
+.param-composite-th {
+  text-align: center;
 }
 .param-tolerance-th[scope="row"] {
   width: 100%
 }
 .param-tolerance-legend {
+  line-height: 0.95;
   text-align: center;
   font-weight: 400;
   text-transform: uppercase;
   color: #789;
-  font-size: 10px
+  font-size: 9px;
+  vertical-align: bottom
 }

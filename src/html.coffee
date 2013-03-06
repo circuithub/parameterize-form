@@ -43,7 +43,7 @@
       ]
   labeledTolerance = (label, tolerance) -> 
     [
-      html.th {class: "param-tolerance-th", scope: "row"}, html.label {class: "param-label"}, label
+      html.th {class: "param-tolerance-th", scope: "row"}, html.label {class: "param-label param-label-text"}, label
       html.td html.input {class: "param-input", type: 'text', value: String tolerance.min}
       html.td html.input {class: "param-input", type: 'text', value: String tolerance.max}
     ]
@@ -89,7 +89,14 @@
       if not Array.isArray defaultTolerance.min then defaultTolerance.min = [defaultTolerance.min, defaultTolerance.min, defaultTolerance.min]
       if not Array.isArray defaultTolerance.max then defaultTolerance.max = [defaultTolerance.max, defaultTolerance.max, defaultTolerance.max]
       trs = if not meta.label? then [] else 
-        [html.tr html.th {class: "param-composite-label", colspan: 3, scope: "rowgroup"}, escapeAttrib meta.label]
+        [html.tr {},
+          html.th {class: "param-composite-label", scope: "rowgroup"}, 
+            html.span {class: "param-composite-label-text"}, escapeAttrib meta.label
+          html.th {class: "param-tolerance-legend", scope: "col"}, "Min"
+          html.th {class: "param-tolerance-legend", scope: "col"}, "Max"
+        ]
+        
+              
       trs = trs.concat (for tds in (labeledCompositeTolerance 3, meta.components, defaultTolerance)
         html.tr {class: "param-numeric"}, tds...)
       html.tbody {class: "parameter param-composite param-dimension3", title: escapeAttrib meta.description},
@@ -146,7 +153,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
       wrapComposite "param-numeric param-dimension2", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
     dimension3: (id, meta, defaultValue) ->
@@ -156,7 +163,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
       wrapComposite "param-numeric param-dimension3", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
     vector2: (id, meta, defaultValue) ->
@@ -166,7 +173,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
       wrapComposite "param-numeric param-vector2", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
     vector3: (id, meta, defaultValue) ->
@@ -176,7 +183,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
       wrapComposite "param-numeric param-vector3", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
     point2: (id, meta, defaultValue) ->
@@ -186,7 +193,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
       wrapComposite "param-numeric param-point2", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
     point3: (id, meta, defaultValue) ->
@@ -196,7 +203,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
       wrapComposite "param-numeric param-point3", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
     pitch1: (id, meta, defaultValue) ->
@@ -213,7 +220,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
       wrapComposite "param-numeric param-pitch2", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
     pitch3: (id, meta, defaultValue) ->
@@ -223,7 +230,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
       wrapComposite "param-numeric param-pitch3", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
     angle: (id, meta, defaultValue) -> throw "Unsupported parameter type `#{this._tag}` (TODO)"
@@ -252,7 +259,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
       wrapComposite "param-numeric param-latice2", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
 
     latice3: (id, meta, defaultValue) ->
@@ -262,7 +269,7 @@
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
       wrapComposite "param-numeric param-latice3", meta.description,
         html.label {class: "param-composite-label"},
-          html.span {class: "param-label-text"}, String meta.label
+          html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
     
     option: (id, meta, options, defaultOption) ->
@@ -301,21 +308,23 @@
       tbodies = []
       ii = NaN
       for rowgroup,i in rowgroups
-        if rowgroup._tag == "tr"
+        if rowgroup.tagName.toLowerCase() == "tr"
           if ii == i - 1
-            tbodies[tbodies.length - 1].push rowgroup
+            tbodies[tbodies.length - 1].appendChild rowgroup
           else
-            tbodies.push (html.tbody {class: ""}, rowgroup)
+            tbodies.push (html.tbody {class: ""}, 
+              html.tr {},
+                html.th {scope: "rowgroup"}, ""
+                html.th {class: "param-tolerance-legend", scope: "col"}, "Min"
+                html.th {class: "param-tolerance-legend", scope: "col"}, "Max"
+              rowgroup)
           ii = i
         else
           tbodies.push rowgroup
       html.div {class: "parameter-set"},
         html.table {class: "param-tolerance-table"},
-          html.thead {class: "param-tolerance-thead"},
-            html.tr {class: "param-tolerance-legend"},
-              html.th {class: "param-tolerance-th"}
-              html.th {class: "param-tolerance-th"}, "Min"
-              html.th {class: "param-tolerance-th"}, "Max"
+          #html.thead {class: "param-tolerance-thead"},
+          
           tbodies...
 
     range: (id, meta, defaultValue, range) ->
