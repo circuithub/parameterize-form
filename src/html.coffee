@@ -24,7 +24,7 @@
       elements...
   labeledInput = (label, value) ->
     labeledElements label, 
-      html.input {class: "param-input", value: String value}
+      html.input {class: "param-input", type: 'text', value: String value}
   # TODO: rename to labeledComposite
   labeledInputs = (n, labels, values, shortLabels = false) ->
     if not shortLabels
@@ -39,13 +39,13 @@
           html.tbody {class: "param-composite-tbody"},
             html.tr {class: "param-composite-tr"},
               (for i in [0...n]
-                html.td {class: "param-composite-td"}, html.input {class: "param-input", value: String values[i]})...
+                html.td {class: "param-composite-td"}, html.input {class: "param-input", type: 'text', value: String values[i]})...
       ]
   labeledTolerance = (label, tolerance) -> 
     [
       html.th {class: "param-tolerance-th", scope: "row"}, html.label {class: "param-label"}, label
-      html.td html.input {class: "param-input", value: String tolerance.min}
-      html.td html.input {class: "param-input", value: String tolerance.max}
+      html.td html.input {class: "param-input", type: 'text', value: String tolerance.min}
+      html.td html.input {class: "param-input", type: 'text', value: String tolerance.max}
     ]
   labeledCompositeTolerance = (n, labels, tolerances) ->
     (labeledTolerance labels[i], {min: tolerances.min[i], max: tolerances.max[i]}) for i in [0...n]
@@ -74,7 +74,7 @@
       if not Array.isArray defaultTolerance.min then defaultTolerance.min = [defaultTolerance.min, defaultTolerance.min, defaultTolerance.min]
       if not Array.isArray defaultTolerance.max then defaultTolerance.max = [defaultTolerance.max, defaultTolerance.max, defaultTolerance.max]
       trs = if not meta.label? then [] else 
-        [html.tr html.th {class: "", colspan: 3, scope: "rowgroup"}, escapeAttrib meta.label]
+        [html.tr html.th {class: "param-composite-label", colspan: 3, scope: "rowgroup"}, escapeAttrib meta.label]
       trs = trs.concat (for tds in (labeledCompositeTolerance 2, meta.components, defaultTolerance)
         html.tr {class: "param-numeric"}, tds...)
       html.tbody {class: "parameter param-composite param-dimension2", title: escapeAttrib meta.description},
@@ -89,7 +89,7 @@
       if not Array.isArray defaultTolerance.min then defaultTolerance.min = [defaultTolerance.min, defaultTolerance.min, defaultTolerance.min]
       if not Array.isArray defaultTolerance.max then defaultTolerance.max = [defaultTolerance.max, defaultTolerance.max, defaultTolerance.max]
       trs = if not meta.label? then [] else 
-        [html.tr html.th {class: "", colspan: 3, scope: "rowgroup"}, escapeAttrib meta.label]
+        [html.tr html.th {class: "param-composite-label", colspan: 3, scope: "rowgroup"}, escapeAttrib meta.label]
       trs = trs.concat (for tds in (labeledCompositeTolerance 3, meta.components, defaultTolerance)
         html.tr {class: "param-numeric"}, tds...)
       html.tbody {class: "parameter param-composite param-dimension3", title: escapeAttrib meta.description},
@@ -122,7 +122,7 @@
 
     section: (heading, children...) ->
       html.section {class: "param-section"},
-        html.h1 {class: "param-heading"}, String heading
+        html.h1 {class: "param-heading", title: escapeAttrib heading}, String heading
         (adt.map @, groupByTolerance children)...
 
     real: (id, meta, defaultValue) ->
@@ -130,14 +130,14 @@
       wrap html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
-          html.input {class: "param-input", value: String defaultValue}
+          html.input {class: "param-input", type: 'text', value: String defaultValue}
 
     dimension1: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
       wrap html.div {class: "param-numeric param-dimension1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
-          html.input {class: "param-input", value: String defaultValue}
+          html.input {class: "param-input", type: 'text', value: String defaultValue}
 
     dimension2: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
@@ -204,7 +204,7 @@
       wrap html.div {class: "param-numeric param-pitch1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
-          html.input {class: "param-input", value: String defaultValue}
+          html.input {class: "param-input", type: 'text', value: String defaultValue}
 
     pitch2: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
@@ -243,7 +243,7 @@
       wrap html.div {class: "param-numeric param-latice1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
-          html.input {class: "param-input", value: String defaultValue}
+          html.input {class: "param-input", type: 'text', value: String defaultValue}
 
     latice2: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
@@ -291,7 +291,7 @@
       else if not meta.label? then meta.label = id
       meta.description ?= ""
       wrap html.div {class: "param-boolean", title: (escapeAttrib meta.description)},
-        labeledElements meta.label, html.input {type: "checkbox", class: "param-checkbox"}
+        labeledElements meta.label, html.input {class: "param-checkbox", type: "checkbox"}
 
     tolerance: (tolerances...) ->
       if tolerances.length == 0
@@ -309,13 +309,14 @@
           ii = i
         else
           tbodies.push rowgroup
-      html.table {class: "param-tolerance-table"},
-        html.thead {class: "param-tolerance-thead"},
-          html.tr {class: "param-tolerance-legend"},
-            html.th {class: "param-tolerance-th"}
-            html.th {class: "param-tolerance-th"}, "Min"
-            html.th {class: "param-tolerance-th"}, "Max"
-        tbodies...
+      html.div {class: "parameter-set"},
+        html.table {class: "param-tolerance-table"},
+          html.thead {class: "param-tolerance-thead"},
+            html.tr {class: "param-tolerance-legend"},
+              html.th {class: "param-tolerance-th"}
+              html.th {class: "param-tolerance-th"}, "Min"
+              html.th {class: "param-tolerance-th"}, "Max"
+          tbodies...
 
     range: (id, meta, defaultValue, range) ->
       throw "Unsupported parameter type `#{this._tag}` (TODO)"

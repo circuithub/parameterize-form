@@ -106,6 +106,7 @@ var __slice = [].slice;
   labeledInput = function(label, value) {
     return labeledElements(label, html.input({
       "class": "param-input",
+      type: 'text',
       value: String(value)
     }));
   };
@@ -149,6 +150,7 @@ var __slice = [].slice;
               "class": "param-composite-td"
             }, html.input({
               "class": "param-input",
+              type: 'text',
               value: String(values[i])
             })));
           }
@@ -166,9 +168,11 @@ var __slice = [].slice;
         "class": "param-label"
       }, label)), html.td(html.input({
         "class": "param-input",
+        type: 'text',
         value: String(tolerance.min)
       })), html.td(html.input({
         "class": "param-input",
+        type: 'text',
         value: String(tolerance.max)
       }))
     ];
@@ -250,7 +254,7 @@ var __slice = [].slice;
       }
       trs = !(meta.label != null) ? [] : [
         html.tr(html.th({
-          "class": "",
+          "class": "param-composite-label",
           colspan: 3,
           scope: "rowgroup"
         }, escapeAttrib(meta.label)))
@@ -299,7 +303,7 @@ var __slice = [].slice;
       }
       trs = !(meta.label != null) ? [] : [
         html.tr(html.th({
-          "class": "",
+          "class": "param-composite-label",
           colspan: 3,
           scope: "rowgroup"
         }, escapeAttrib(meta.label)))
@@ -392,7 +396,8 @@ var __slice = [].slice;
       return html.section.apply(html, [{
         "class": "param-section"
       }, html.h1({
-        "class": "param-heading"
+        "class": "param-heading",
+        title: escapeAttrib(heading)
       }, String(heading))].concat(__slice.call(adt.map(this, groupByTolerance(children)))));
     },
     real: function(id, meta, defaultValue) {
@@ -406,6 +411,7 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)), html.input({
         "class": "param-input",
+        type: 'text',
         value: String(defaultValue)
       }))));
     },
@@ -420,6 +426,7 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)), html.input({
         "class": "param-input",
+        type: 'text',
         value: String(defaultValue)
       }))));
     },
@@ -530,6 +537,7 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)), html.input({
         "class": "param-input",
+        type: 'text',
         value: String(defaultValue)
       }))));
     },
@@ -594,6 +602,7 @@ var __slice = [].slice;
         "class": "param-label-text"
       }, String(meta.label)), html.input({
         "class": "param-input",
+        type: 'text',
         value: String(defaultValue)
       }))));
     },
@@ -700,8 +709,8 @@ var __slice = [].slice;
         "class": "param-boolean",
         title: escapeAttrib(meta.description)
       }, labeledElements(meta.label, html.input({
-        type: "checkbox",
-        "class": "param-checkbox"
+        "class": "param-checkbox",
+        type: "checkbox"
       }))));
     },
     tolerance: function() {
@@ -728,7 +737,9 @@ var __slice = [].slice;
           tbodies.push(rowgroup);
         }
       }
-      return html.table.apply(html, [{
+      return html.div({
+        "class": "parameter-set"
+      }, html.table.apply(html, [{
         "class": "param-tolerance-table"
       }, html.thead({
         "class": "param-tolerance-thead"
@@ -740,7 +751,7 @@ var __slice = [].slice;
         "class": "param-tolerance-th"
       }, "Min"), html.th({
         "class": "param-tolerance-th"
-      }, "Max")))].concat(__slice.call(tbodies)));
+      }, "Max")))].concat(__slice.call(tbodies))));
     },
     range: function(id, meta, defaultValue, range) {
       throw "Unsupported parameter type `" + this._tag + "` (TODO)";
