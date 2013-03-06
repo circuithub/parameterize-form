@@ -1,21 +1,15 @@
-/* Clearfix comes from twitter bootstrap */
-.clearfix {
-  *zoom: 1;
-}
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  line-height: 0;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
+/* Base form styling */
+.parameters {
+  background: #efe8e2;
+  width: 234px;
+  box-sizing: content-box;
+  margin: 20px auto;
+  padding: 2px;
 }
 
 /* Form styling */
 .parameters {
-  position: relative;
-  width: 300px;
+  position: relative;  
 }
 .parameter {
   margin: 4px 0

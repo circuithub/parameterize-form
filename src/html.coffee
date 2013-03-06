@@ -316,7 +316,6 @@
             html.th {class: "param-tolerance-th"}, "Min"
             html.th {class: "param-tolerance-th"}, "Max"
         tbodies...
-        
 
     range: (id, meta, defaultValue, range) ->
       throw "Unsupported parameter type `#{this._tag}` (TODO)"
