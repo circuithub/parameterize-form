@@ -73,8 +73,12 @@
       meta.components ?= ["X","Y"]
       if not Array.isArray defaultTolerance.min then defaultTolerance.min = [defaultTolerance.min, defaultTolerance.min, defaultTolerance.min]
       if not Array.isArray defaultTolerance.max then defaultTolerance.max = [defaultTolerance.max, defaultTolerance.max, defaultTolerance.max]
-      trs = if not meta.label? then [] else 
-        [html.tr html.th {class: "param-composite-label", colspan: 3, scope: "rowgroup"}, escapeAttrib meta.label]
+      trs = if not meta.label? then [] else
+        [html.tr {},
+          html.th {class: "param-composite-label", scope: "rowgroup"}, 
+            html.span {class: "param-composite-label-text"}, escapeAttrib meta.label
+          html.th {class: "param-tolerance-legend", scope: "col"}, "Min"
+          html.th {class: "param-tolerance-legend", scope: "col"}, "Max"]
       trs = trs.concat (for tds in (labeledCompositeTolerance 2, meta.components, defaultTolerance)
         html.tr {class: "param-numeric"}, tds...)
       html.tbody {class: "parameter param-composite param-dimension2", title: escapeAttrib meta.description},
@@ -88,15 +92,12 @@
       meta.components ?= ["X","Y","Z"]
       if not Array.isArray defaultTolerance.min then defaultTolerance.min = [defaultTolerance.min, defaultTolerance.min, defaultTolerance.min]
       if not Array.isArray defaultTolerance.max then defaultTolerance.max = [defaultTolerance.max, defaultTolerance.max, defaultTolerance.max]
-      trs = if not meta.label? then [] else 
+      trs = if not meta.label? then [] else
         [html.tr {},
           html.th {class: "param-composite-label", scope: "rowgroup"}, 
             html.span {class: "param-composite-label-text"}, escapeAttrib meta.label
           html.th {class: "param-tolerance-legend", scope: "col"}, "Min"
-          html.th {class: "param-tolerance-legend", scope: "col"}, "Max"
-        ]
-        
-              
+          html.th {class: "param-tolerance-legend", scope: "col"}, "Max"]
       trs = trs.concat (for tds in (labeledCompositeTolerance 3, meta.components, defaultTolerance)
         html.tr {class: "param-numeric"}, tds...)
       html.tbody {class: "parameter param-composite param-dimension3", title: escapeAttrib meta.description},
