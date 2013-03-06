@@ -23,7 +23,6 @@
 .param-label,.param-composite-label {
   color: #4985ad;
   font-weight: 200;
-  text-align: right;
   margin: 0
 }
 .param-label {
@@ -33,21 +32,21 @@
   display: inline-block;
   padding: 0 5px 0 0
 }
-.param-composite,.param-tolerance {
+/*.param-composite,.param-tolerance {
   margin: 10px 0
-}
+}*/
 .param-composite-label {
-  display: inline-block;
+  /*display: inline-block;*/
   color: #789;
   font-style: italic
 }
 .param-composite-table {
-  float: right
+  /*float: right*/
 }
 .param-composite-th .param-label {
   text-align: center;
 }
-.param-tolerance-legend-label,.param-numeric .param-input {
+.param-numeric .param-input {
   width: 60px;
   margin: 0 2px;
   box-sizing: border-box
@@ -82,27 +81,15 @@
   cursor: pointer
 }
 .param-tolerance-table {
-  float: right
-}
-.param-tolerance-label {
-  width: 80px
+  /*float: right*/
 }
 .param-tolerance-legend {
-  display: inline-block;
-  float: right;
   font-weight: 400;
   text-transform: uppercase;
-  color: #4985ad;
+  color: #789;
   font-size: 10px
 }
-.param-tolerance-legend-label {
-  /*display: table-cell;*/
-  display: inline-block;
-  text-align: center;
-  color: #789
-}
-.param-tolerance-body {
-  clear: both;
+.param-tolerance-tbody {
 }
 .param-heading {
   font-size: 12px;
