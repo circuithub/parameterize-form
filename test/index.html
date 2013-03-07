@@ -20,14 +20,16 @@
     }    
 
     /* Application styling */
-    #events-console {
-      color: red;
+    #events {
       position: fixed;
       bottom: 0;
       width: 100%;
+      margin: 0;
+    }
+    #events-console {
+      color: red;
       height: 5em;
       overflow-y: scroll;
-      margin: 0;
     }
     #main-layout {
       margin-bottom: 7em;
@@ -44,7 +46,8 @@
   <div id='main-layout'>
   </div>
 
-  <pre id='events-console'>
+  <pre id='events'>
+    <span id='events-console'></span>
   </pre>
 
   <!-- Prompt IE users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
@@ -134,11 +137,14 @@
     containerEl.appendChild(controls);
     
     // Do event binding
-    var eventsEl =  document.getElementById('events-console');
+    var $eventsConsole = $(document.getElementById('events-console'));
     parameterize.on("update", containerEl, function(){
       console.info("Parameters updated...");
-      eventsEl.innerHTML = "Parameters updated...";
-      setTimeout(function(){ eventsEl.innerHTML = ""; }, 5000);
+      $eventsConsole
+        .stop(true,true)
+        .show()
+        .html("Parameters updated...")
+        .fadeOut(1500);
     });
   </script>
 </body>
