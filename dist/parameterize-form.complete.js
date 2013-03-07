@@ -788,6 +788,9 @@ var __slice = [].slice;
     if (!(typeof $ !== "undefined" && $ !== null)) {
       throw "JQuery could not be found. Please ensure that $ is available before using parameterize.on.";
     }
+    if (eventKey !== "update") {
+      throw "Unknown event key \'" + eventKey + "\'.";
+    }
     $selector = $(selector);
     $selector.on('change', 'input[type="checkbox"],select', callback);
     $selector.on('keypress', 'input[type="text"]', function(e) {
@@ -821,6 +824,19 @@ var __slice = [].slice;
       }
       callback.apply(null, arguments);
     });
+  };
+  form.off = function(eventKey, selector) {
+    var $selector;
+    if (!(typeof $ !== "undefined" && $ !== null)) {
+      throw "JQuery could not be found. Please ensure that $ is available before using parameterize.off.";
+    }
+    if (eventKey !== "update") {
+      throw "Unknown event key \'" + eventKey + "\'.";
+    }
+    $selector = $(selector);
+    $selector.off('change', 'input[type="checkbox"],select');
+    $selector.off('keypress', 'input[type="text"]');
+    $selector.off('keydown', 'input[type="text"]');
   };
   return module.exports = form;
 })(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'));

@@ -18,9 +18,10 @@
   form.on = (eventKey, selector, callback) ->
     if not $?
       throw "JQuery could not be found. Please ensure that $ is available before using parameterize.on."
+    if eventKey != "update" 
+      throw "Unknown event key \'#{eventKey}\'."
 
     # TODO: on loose focus, reset input contents to converted units
-
     $selector = $ selector
     $selector.on 'change', 'input[type="checkbox"],select', callback
     # Handle printable characters
@@ -44,6 +45,22 @@
           return
       callback arguments...
       return
+    return
+
+  # Event handlers
+  form.off = (eventKey, selector) ->  #, callback
+    if not $?
+      throw "JQuery could not be found. Please ensure that $ is available before using parameterize.off."
+    if eventKey != "update" 
+      throw "Unknown event key \'#{eventKey}\'."
+
+    # TODO: on loose focus, reset input contents to converted units
+    $selector = $ selector
+    $selector.off 'change', 'input[type="checkbox"],select' #, callback
+    # Handle printable characters
+    $selector.off 'keypress', 'input[type="text"]'
+    # Handle non-printable characters
+    $selector.off 'keydown', 'input[type="text"]'
     return
 
   # Export this module for nodejs
