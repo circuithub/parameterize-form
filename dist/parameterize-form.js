@@ -784,10 +784,44 @@ var __slice = [].slice;
   form.get = function(formElement) {};
   form.set = function(formElement, form) {};
   form.on = function(eventKey, selector, callback) {
+    var $selector;
     if (!(typeof $ !== "undefined" && $ !== null)) {
       throw "JQuery could not be found. Please ensure that $ is available before using parameterize.on.";
     }
-    $(selector).on('change', 'input', callback);
+    $selector = $(selector);
+    $selector.on('change', 'input[type="checkbox"],select', callback);
+    $selector.on('keypress', 'input[type="text"]', function(e) {
+      if (e.which === 0) {
+        return;
+      }
+      callback.apply(null, arguments);
+    });
+    $selector.on('keydown', 'input[type="text"]', function(e) {
+      if (e.which === 0) {
+        return;
+      }
+      switch (e.which) {
+        case 8:
+        case 46:
+          void 0;
+          break;
+        case 45:
+          if (!e.shiftKey) {
+            return;
+          }
+          break;
+        case 86:
+        case 88:
+          if (!e.ctrlKey) {
+            return;
+          }
+          break;
+        default:
+          return;
+      }
+      console.log(e.which);
+      callback.apply(null, arguments);
+    });
   };
   return module.exports = form;
 })(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'));
