@@ -787,7 +787,7 @@ var __slice = [].slice;
     if (!(typeof $ !== "undefined" && $ !== null)) {
       throw "JQuery could not be found. Please ensure that $ is available before using parameterize.on.";
     }
-    $(selector).on('input', 'change', callback);
+    $(selector).on('change', 'input', callback);
   };
   return module.exports = form;
 })(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'));

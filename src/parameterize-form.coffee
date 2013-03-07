@@ -18,7 +18,7 @@
   form.on = (eventKey, selector, callback) ->
     if not $?
       throw "JQuery could not be found. Please ensure that $ is available before using parameterize.on."
-    $(selector).on 'input', 'change', callback
+    $(selector).on 'change', 'input', callback
     return
 
   # Export this module for nodejs
