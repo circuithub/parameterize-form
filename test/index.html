@@ -23,6 +23,9 @@
     }
 
     /* Application styling */
+    #events-console {
+      color: red;
+    }
 
   </style>
   <link href="bootstrap.css" rel='stylesheet'>
@@ -35,6 +38,9 @@
   <div id='main-layout'>
   </div>
 
+  <pre id='events-console'>
+  </pre>
+
   <!-- Prompt IE users to install Chrome Frame. chromium.org/developers/how-tos/chrome-frame-getting-started -->
   <!--[if IE]>
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
@@ -43,7 +49,6 @@
 
   <script src="../vendor/adt.js"></script>
   <script src="../vendor/adt-html.js"></script>
-  <script src="../vendor/parameterize-adt.js"></script>
   <script src="../dist/parameterize-form.js"></script>
   <script>
     var form = (function(_){
@@ -117,8 +122,17 @@
       )
     })(parameterize.form);
     var controls = parameterize.html(form);
-
-    document.getElementById('main-layout').appendChild(controls);
+    
+    var containerEl = document.getElementById('main-layout');
+    containerEl.appendChild(controls);
+    
+    // Do event binding
+    var eventsEl =  document.getElementById('events-console');
+    console.log(parameterize);
+    parameterize.on("update", containerEl, function(){
+      eventsEl.innerHTML = "Parameters updated...";
+      setTimeout(function(){ eventsEl.innerHTML = ""; }, 5000);
+    });
   </script>
 </body>
 </html>
