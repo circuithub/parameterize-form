@@ -18,13 +18,19 @@
       margin: 0;
       padding: 0;
     }    
-    html, body {
-      height: 100%;
-    }
 
     /* Application styling */
     #events-console {
       color: red;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 5em;
+      overflow-y: scroll;
+      margin: 0;
+    }
+    #main-layout {
+      margin-bottom: 7em;
     }
 
   </style>
@@ -47,6 +53,7 @@
     <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
   <![endif]-->
 
+  <script src='//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
   <script src="../vendor/adt.js"></script>
   <script src="../vendor/adt-html.js"></script>
   <script src="../dist/parameterize-form.js"></script>
@@ -129,6 +136,7 @@
     // Do event binding
     var eventsEl =  document.getElementById('events-console');
     parameterize.on("update", containerEl, function(){
+      console.info("Parameters updated...");
       eventsEl.innerHTML = "Parameters updated...";
       setTimeout(function(){ eventsEl.innerHTML = ""; }, 5000);
     });
