@@ -20,7 +20,7 @@
   },
   "optionalDependencies": {
     "parameterize-adt": "git://github.com/circuithub/parameterize-adt.git#master"
-  }
+  },
   "devDependencies": {
     "stitch": "git://github.com/rehno-lindeque/stitch.git#master",
     "uglify-js": "*"
