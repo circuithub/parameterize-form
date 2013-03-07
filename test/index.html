@@ -128,7 +128,6 @@
     
     // Do event binding
     var eventsEl =  document.getElementById('events-console');
-    console.log(parameterize);
     parameterize.on("update", containerEl, function(){
       eventsEl.innerHTML = "Parameters updated...";
       setTimeout(function(){ eventsEl.innerHTML = ""; }, 5000);
