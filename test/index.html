@@ -24,12 +24,14 @@
       position: fixed;
       bottom: 0;
       width: 100%;
+      min-height: 5em;
+      max-height: 7em;
       margin: 0;
+      overflow-y: auto;
+      box-sizing: border-box;
     }
     #events-console {
       color: red;
-      height: 5em;
-      overflow-y: scroll;
     }
     #main-layout {
       margin-bottom: 7em;
@@ -139,11 +141,11 @@
     // Do event binding
     var $eventsConsole = $(document.getElementById('events-console'));
     parameterize.on("update", containerEl, function(){
-      console.info("Parameters updated...");
+      console.info("Parameters updated...", parameterize.get(containerEl, form));
       $eventsConsole
         .stop(true,true)
         .show()
-        .html("Parameters updated...")
+        .html("Parameters updated...\n\n" + JSON.stringify(parameterize.get(containerEl, form), undefined, "  "))
         .fadeOut(1500);
     });
     // Test off method:
