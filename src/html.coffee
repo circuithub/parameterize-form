@@ -11,12 +11,14 @@
       if a._tag == 'tolerance' and gs[gs.length-1]?._tag == 'tolerance'
         gs[gs.length-1].push a...
       else
-        gs.push a
+        copyA = [a...]
+        copyA._tag = a._tag
+        gs.push copyA
     return gs
   
   # HTML helpers
-  wrap = -> html.div {class: "parameter"}, arguments...
-  wrapComposite = (classes, description, args...) -> html.div {class: "parameter param-composite #{classes}", title: escapeAttrib description}, args...
+  wrap = (id, args...) -> html.div {class: "parameter", 'data-param-id': id}, args...
+  wrapComposite = (id, classes, description, args...) -> html.div {class: "parameter param-composite #{classes}", 'data-param-id': id, title: escapeAttrib description}, args...
   
   labeledElements = (label, elements...) ->
     html.label {class: "param-label"}, 
@@ -57,14 +59,14 @@
       else if not meta? then meta = {label: id}
       else if not meta.label? then meta.label = id
       meta.description ?= ""
-      html.tr {class: "parameter param-numeric param-real", title: escapeAttrib meta.description},
+      html.tr {class: "parameter param-numeric param-real", 'data-param-id': id, title: escapeAttrib meta.description},
         (labeledTolerance meta.label, defaultTolerance)...
     dimension1: (id, meta, defaultTolerance) ->
       if typeof meta == 'string' then meta = {label: meta}
       else if not meta? then meta = {label: id}
       else if not meta.label? then meta.label = id
       meta.description ?= ""
-      html.tr {class: "parameter param-numeric param-dimension1", title: escapeAttrib meta.description},
+      html.tr {class: "parameter param-numeric param-dimension1", 'data-param-id': id, title: escapeAttrib meta.description},
         (labeledTolerance meta.label, defaultTolerance)...
     dimension2: (id, meta, defaultTolerance) ->
       if typeof meta == 'string' then meta = {label: meta}
@@ -81,9 +83,8 @@
           html.th {class: "param-tolerance-legend", scope: "col"}, "Max"]
       trs = trs.concat (for tds in (labeledCompositeTolerance 2, meta.components, defaultTolerance)
         html.tr {class: "param-numeric"}, tds...)
-      html.tbody {class: "parameter param-composite param-dimension2", title: escapeAttrib meta.description},
+      html.tbody {class: "parameter param-composite param-dimension2", 'data-param-id': id, title: escapeAttrib meta.description},
         trs...
-        
     dimension3: (id, meta, defaultTolerance) ->
       if typeof meta == 'string' then meta = {label: meta}
       else if not meta? then meta = {label: id}
@@ -100,7 +101,7 @@
           html.th {class: "param-tolerance-legend", scope: "col"}, "Max"]
       trs = trs.concat (for tds in (labeledCompositeTolerance 3, meta.components, defaultTolerance)
         html.tr {class: "param-numeric"}, tds...)
-      html.tbody {class: "parameter param-composite param-dimension3", title: escapeAttrib meta.description},
+      html.tbody {class: "parameter param-composite param-dimension3", 'data-param-id': id, title: escapeAttrib meta.description},
         trs...
     vector2: -> throw "Unsupported tolerance type `#{this._tag}` (TODO)"
     vector3: -> throw "Unsupported tolerance type `#{this._tag}` (TODO)"
@@ -125,24 +126,24 @@
 
   # Parameters
   module.exports = adt {
-    parameters: (description, children...) -> 
-      html.div {class: "parameters"}, (adt.map @, children)...
+    parameters: (description, params...) -> 
+      html.div {class: "parameters"}, (adt.map @, params)...
 
-    section: (heading, children...) ->
+    section: (heading, params...) ->
       html.section {class: "param-section"},
         html.h1 {class: "param-heading", title: escapeAttrib heading}, String heading
-        (adt.map @, groupByTolerance children)...
+        (adt.map @, groupByTolerance params)...
 
     real: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
-      wrap html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
+      wrap id, html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
           html.input {class: "param-input", type: 'text', value: String defaultValue}
 
     dimension1: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
-      wrap html.div {class: "param-numeric param-dimension1", title: (escapeAttrib meta.description)},
+      wrap id, html.div {class: "param-numeric param-dimension1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
           html.input {class: "param-input", type: 'text', value: String defaultValue}
@@ -152,7 +153,7 @@
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
-      wrapComposite "param-numeric param-dimension2", meta.description,
+      wrapComposite id, "param-numeric param-dimension2", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
@@ -162,7 +163,7 @@
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
-      wrapComposite "param-numeric param-dimension3", meta.description,
+      wrapComposite id, "param-numeric param-dimension3", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
@@ -172,7 +173,7 @@
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
-      wrapComposite "param-numeric param-vector2", meta.description,
+      wrapComposite id, "param-numeric param-vector2", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
@@ -182,7 +183,7 @@
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
-      wrapComposite "param-numeric param-vector3", meta.description,
+      wrapComposite id, "param-numeric param-vector3", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
@@ -192,7 +193,7 @@
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
-      wrapComposite "param-numeric param-point2", meta.description,
+      wrapComposite id, "param-numeric param-point2", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
@@ -202,14 +203,14 @@
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
-      wrapComposite "param-numeric param-point3", meta.description,
+      wrapComposite id, "param-numeric param-point3", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
 
     pitch1: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
-      wrap html.div {class: "param-numeric param-pitch1", title: (escapeAttrib meta.description)},
+      wrap id, html.div {class: "param-numeric param-pitch1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
           html.input {class: "param-input", type: 'text', value: String defaultValue}
@@ -219,7 +220,7 @@
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
-      wrapComposite "param-numeric param-pitch2", meta.description,
+      wrapComposite id, "param-numeric param-pitch2", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
@@ -229,7 +230,7 @@
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
-      wrapComposite "param-numeric param-pitch3", meta.description,
+      wrapComposite id, "param-numeric param-pitch3", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
@@ -248,7 +249,7 @@
 
     latice1: (id, meta, defaultValue) ->
       meta = resolveMeta id, meta
-      wrap html.div {class: "param-numeric param-latice1", title: (escapeAttrib meta.description)},
+      wrap id, html.div {class: "param-numeric param-latice1", title: (escapeAttrib meta.description)},
         html.label {class: "param-label"},
           html.span {class: "param-label-text"}, String meta.label
           html.input {class: "param-input", type: 'text', value: String defaultValue}
@@ -258,7 +259,7 @@
       meta.components ?= ["X","Y"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue]
-      wrapComposite "param-numeric param-latice2", meta.description,
+      wrapComposite id, "param-numeric param-latice2", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 2, meta.components, defaultValue, shortLabels)...
@@ -268,7 +269,7 @@
       meta.components ?= ["X","Y","Z"]
       shortLabels = Math.max(meta.components[0].length, meta.components[1].length, meta.components[2].length) < shortLabelLength
       if not Array.isArray defaultValue then defaultValue = [defaultValue, defaultValue, defaultValue]
-      wrapComposite "param-numeric param-latice3", meta.description,
+      wrapComposite id, "param-numeric param-latice3", meta.description,
         html.label {class: "param-composite-label"},
           html.span {class: "param-composite-label-text"}, String meta.label
         (labeledInputs 3, meta.components, defaultValue, shortLabels)...
@@ -286,7 +287,7 @@
 
       defaultOption ?= (Object.keys keyValue)[0]
 
-      wrap html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
+      wrap id, html.div {class: "param-numeric param-real", title: (escapeAttrib meta.description)},
         labeledElements meta.label,
           html.select {class: "param-select"},
             (for k,v of keyValue
@@ -298,7 +299,7 @@
       else if not meta? then meta = {label: id}
       else if not meta.label? then meta.label = id
       meta.description ?= ""
-      wrap html.div {class: "param-boolean", title: (escapeAttrib meta.description)},
+      wrap id, html.div {class: "param-boolean", title: (escapeAttrib meta.description)},
         labeledElements meta.label, html.input {class: "param-checkbox", type: "checkbox"}
 
     tolerance: (tolerances...) ->
@@ -325,7 +326,6 @@
       html.div {class: "parameter-set"},
         html.table {class: "param-tolerance-table"},
           #html.thead {class: "param-tolerance-thead"},
-          
           tbodies...
 
     range: (id, meta, defaultValue, range) ->

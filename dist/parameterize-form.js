@@ -69,28 +69,34 @@ var __slice = [].slice;
     return (String(str)).replace(/['"]/gi, "`");
   };
   groupByTolerance = function(as) {
-    var a, gs, _i, _len, _ref, _ref1;
+    var a, copyA, gs, _i, _len, _ref, _ref1;
     gs = [];
     for (_i = 0, _len = as.length; _i < _len; _i++) {
       a = as[_i];
       if (a._tag === 'tolerance' && ((_ref = gs[gs.length - 1]) != null ? _ref._tag : void 0) === 'tolerance') {
         (_ref1 = gs[gs.length - 1]).push.apply(_ref1, a);
       } else {
-        gs.push(a);
+        copyA = __slice.call(a);
+        copyA._tag = a._tag;
+        gs.push(copyA);
       }
     }
     return gs;
   };
   wrap = function() {
+    var args, id;
+    id = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
     return html.div.apply(html, [{
-      "class": "parameter"
-    }].concat(__slice.call(arguments)));
+      "class": "parameter",
+      'data-param-id': id
+    }].concat(__slice.call(args)));
   };
   wrapComposite = function() {
-    var args, classes, description;
-    classes = arguments[0], description = arguments[1], args = 3 <= arguments.length ? __slice.call(arguments, 2) : [];
+    var args, classes, description, id;
+    id = arguments[0], classes = arguments[1], description = arguments[2], args = 4 <= arguments.length ? __slice.call(arguments, 3) : [];
     return html.div.apply(html, [{
       "class": "parameter param-composite " + classes,
+      'data-param-id': id,
       title: escapeAttrib(description)
     }].concat(__slice.call(args)));
   };
@@ -207,6 +213,7 @@ var __slice = [].slice;
       }
       return html.tr.apply(html, [{
         "class": "parameter param-numeric param-real",
+        'data-param-id': id,
         title: escapeAttrib(meta.description)
       }].concat(__slice.call(labeledTolerance(meta.label, defaultTolerance))));
     },
@@ -228,6 +235,7 @@ var __slice = [].slice;
       }
       return html.tr.apply(html, [{
         "class": "parameter param-numeric param-dimension1",
+        'data-param-id': id,
         title: escapeAttrib(meta.description)
       }].concat(__slice.call(labeledTolerance(meta.label, defaultTolerance))));
     },
@@ -280,6 +288,7 @@ var __slice = [].slice;
       })());
       return html.tbody.apply(html, [{
         "class": "parameter param-composite param-dimension2",
+        'data-param-id': id,
         title: escapeAttrib(meta.description)
       }].concat(__slice.call(trs)));
     },
@@ -336,6 +345,7 @@ var __slice = [].slice;
       })());
       return html.tbody.apply(html, [{
         "class": "parameter param-composite param-dimension3",
+        'data-param-id': id,
         title: escapeAttrib(meta.description)
       }].concat(__slice.call(trs)));
     },
@@ -398,25 +408,25 @@ var __slice = [].slice;
   };
   return module.exports = adt({
     parameters: function() {
-      var children, description;
-      description = arguments[0], children = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      var description, params;
+      description = arguments[0], params = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
       return html.div.apply(html, [{
         "class": "parameters"
-      }].concat(__slice.call(adt.map(this, children))));
+      }].concat(__slice.call(adt.map(this, params))));
     },
     section: function() {
-      var children, heading;
-      heading = arguments[0], children = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      var heading, params;
+      heading = arguments[0], params = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
       return html.section.apply(html, [{
         "class": "param-section"
       }, html.h1({
         "class": "param-heading",
         title: escapeAttrib(heading)
-      }, String(heading))].concat(__slice.call(adt.map(this, groupByTolerance(children)))));
+      }, String(heading))].concat(__slice.call(adt.map(this, groupByTolerance(params)))));
     },
     real: function(id, meta, defaultValue) {
       meta = resolveMeta(id, meta);
-      return wrap(html.div({
+      return wrap(id, html.div({
         "class": "param-numeric param-real",
         title: escapeAttrib(meta.description)
       }, html.label({
@@ -431,7 +441,7 @@ var __slice = [].slice;
     },
     dimension1: function(id, meta, defaultValue) {
       meta = resolveMeta(id, meta);
-      return wrap(html.div({
+      return wrap(id, html.div({
         "class": "param-numeric param-dimension1",
         title: escapeAttrib(meta.description)
       }, html.label({
@@ -454,7 +464,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-dimension2", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-dimension2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -470,7 +480,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-dimension3", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-dimension3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -486,7 +496,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-vector2", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-vector2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -502,7 +512,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-vector3", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-vector3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -518,7 +528,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-point2", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-point2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -534,7 +544,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-point3", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-point3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -542,7 +552,7 @@ var __slice = [].slice;
     },
     pitch1: function(id, meta, defaultValue) {
       meta = resolveMeta(id, meta);
-      return wrap(html.div({
+      return wrap(id, html.div({
         "class": "param-numeric param-pitch1",
         title: escapeAttrib(meta.description)
       }, html.label({
@@ -565,7 +575,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-pitch2", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-pitch2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -581,7 +591,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-pitch3", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-pitch3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -607,7 +617,7 @@ var __slice = [].slice;
     },
     latice1: function(id, meta, defaultValue) {
       meta = resolveMeta(id, meta);
-      return wrap(html.div({
+      return wrap(id, html.div({
         "class": "param-numeric param-latice1",
         title: escapeAttrib(meta.description)
       }, html.label({
@@ -630,7 +640,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-latice2", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-latice2", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -646,7 +656,7 @@ var __slice = [].slice;
       if (!Array.isArray(defaultValue)) {
         defaultValue = [defaultValue, defaultValue, defaultValue];
       }
-      return wrapComposite.apply(null, ["param-numeric param-latice3", meta.description, html.label({
+      return wrapComposite.apply(null, [id, "param-numeric param-latice3", meta.description, html.label({
         "class": "param-composite-label"
       }, html.span({
         "class": "param-composite-label-text"
@@ -685,7 +695,7 @@ var __slice = [].slice;
       if (defaultOption == null) {
         defaultOption = (Object.keys(keyValue))[0];
       }
-      return wrap(html.div({
+      return wrap(id, html.div({
         "class": "param-numeric param-real",
         title: escapeAttrib(meta.description)
       }, labeledElements(meta.label, html.select.apply(html, [{
@@ -719,7 +729,7 @@ var __slice = [].slice;
       if ((_ref = meta.description) == null) {
         meta.description = "";
       }
-      return wrap(html.div({
+      return wrap(id, html.div({
         "class": "param-boolean",
         title: escapeAttrib(meta.description)
       }, labeledElements(meta.label, html.input({
@@ -774,15 +784,197 @@ var __slice = [].slice;
   });
 })(typeof adt !== "undefined" && adt !== null ? adt : require('adt.js'), typeof html !== "undefined" && html !== null ? html : require('adt-html.js'));
 }, "parameterize-form.js": function(exports, require, module) {// Generated by CoffeeScript 1.4.0
+var __slice = [].slice;
 
 (function(adt) {
-  var form;
+  var form, parameterReader, readParameter, readTolerance, readToleranceWith, readUnit;
   form = {
     html: require("html")
   };
   form.form = adt.constructors(form.html);
-  form.get = function(formElement) {};
-  form.set = function(formElement, form) {};
+  readUnit = {
+    real: function(els) {
+      return Number(els[0].value);
+    },
+    integer: function(els) {
+      return Math.round(readUnit.real(els));
+    },
+    natural: function(els) {
+      return Math.max(0, Math.round(readUnit.integer(els)));
+    },
+    meter: function(els) {
+      return readUnit.real(els);
+    },
+    meter2: function(els) {
+      return [readUnit.meter([els[0]], readUnit.meter([els[1]]))];
+    },
+    meter3: function(els) {
+      return [readUnit.meter([els[0]], readUnit.meter([els[1]], readUnit.meter([els[2]])))];
+    },
+    degree: function(els) {
+      return readUnit.real(els);
+    },
+    degree: function(els) {
+      return readUnit.real(els);
+    }
+  };
+  readParameter = {
+    real: readUnit.real,
+    dimension1: readUnit.meter,
+    dimension2: readUnit.meter2,
+    dimension3: readUnit.meter3,
+    vector2: readUnit.meter2,
+    vector3: readUnit.meter3,
+    point2: readUnit.meter2,
+    point3: readUnit.meter3,
+    pitch1: readUnit.meter,
+    pitch2: readUnit.meter2,
+    pitch3: readUnit.meter3,
+    angle: readUnit.degree,
+    polar: function(els) {
+      return [readUnit.meter([els[0]]), readUnit.degree([els[1]])];
+    },
+    cylindrical: function(els) {
+      return [readUnit.meter([els[0]]), readUnit.degree([els[1]]), readUnit.meter([els[2]])];
+    },
+    spherical: function(els) {
+      return [readUnit.meter([els[0]]), readUnit.degree([els[1]]), readUnit.degree([els[2]])];
+    },
+    integer: readUnit.integer,
+    natural: readUnit.natural,
+    latice1: readUnit.natural,
+    latice2: function(els) {
+      return [readUnit.natural([els[0]]), readUnit.natural([els[1]])];
+    },
+    latice3: function(els) {
+      return [readUnit.natural([els[0]]), readUnit.natural([els[1]]), readUnit.natural([els[2]])];
+    },
+    boolean: function(els) {
+      return Boolean(els[0].checked);
+    },
+    option: function(els) {
+      return els[0].options[els[0].selectedIndex].value;
+    }
+  };
+  readToleranceWith = {
+    '1': function(f) {
+      return function(els) {
+        return {
+          min: f([els[0]]),
+          max: f([els[1]])
+        };
+      };
+    },
+    '2': function(f) {
+      return function(els) {
+        return {
+          min: [f([els[0]]), f([els[2]])],
+          max: [f([els[1]]), f([els[3]])]
+        };
+      };
+    },
+    '3': function(f) {
+      return function(els) {
+        return {
+          min: [f([els[0]]), f([els[2]]), f([els[4]])],
+          max: [f([els[1]]), f([els[3]]), f([els[5]])]
+        };
+      };
+    }
+  };
+  readTolerance = {
+    real: readToleranceWith['1'](readUnit.real),
+    dimension1: readToleranceWith['1'](readUnit.meter),
+    dimension2: readToleranceWith['2'](readUnit.meter),
+    dimension3: readToleranceWith['3'](readUnit.meter),
+    vector2: readToleranceWith['2'](readUnit.meter),
+    vector3: readToleranceWith['3'](readUnit.meter),
+    point2: readToleranceWith['2'](readUnit.meter),
+    point3: readToleranceWith['3'](readUnit.meter),
+    pitch1: readToleranceWith['1'](readUnit.meter),
+    pitch2: readToleranceWith['2'](readUnit.meter),
+    pitch3: readToleranceWith['3'](readUnit.meter),
+    angle: readToleranceWith['1'](readUnit.degree),
+    polar: function(els) {
+      return [(readToleranceWith['1'](readUnit.meter))(els.slice(0, 2)), (readToleranceWith['1'](readUnit.degree))(els.slice(2))];
+    },
+    cylindrical: function(els) {
+      return [(readToleranceWith['1'](readUnit.meter))(els.slice(0, 2)), (readToleranceWith['1'](readUnit.degree))(els.slice(2, 4)), (readToleranceWith['1'](readUnit.meter))(els.slice(4))];
+    },
+    spherical: function(els) {
+      return [(readToleranceWith['1'](readUnit.meter))(els.slice(0, 2)), (readToleranceWith['1'](readUnit.degree))(els.slice(2, 4)), (readToleranceWith['1'](readUnit.degree))(els.slice(4))];
+    }
+  };
+  parameterReader = adt({
+    Array: function(array) {
+      return function(result, it) {
+        var a, _i, _len;
+        for (_i = 0, _len = array.length; _i < _len; _i++) {
+          a = array[_i];
+          (parameterReader(a))(result, it);
+        }
+      };
+    },
+    parameters: function() {
+      var description, params;
+      description = arguments[0], params = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      return this(params);
+    },
+    section: function() {
+      var heading, params;
+      heading = arguments[0], params = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      return this(params);
+    },
+    tolerance: function() {
+      var tolerances;
+      tolerances = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      return function(result, it) {
+        var reader, t, _i, _len;
+        reader = function(param) {
+          return function(result, it) {
+            var el;
+            el = it.nextNode();
+            return result[el.getAttribute('data-param-id')] = readTolerance[param._tag](el.querySelectorAll("input"));
+          };
+        };
+        for (_i = 0, _len = tolerances.length; _i < _len; _i++) {
+          t = tolerances[_i];
+          (reader(t))(result, it);
+        }
+      };
+    },
+    _: function() {
+      var tag;
+      tag = this._tag;
+      return function(result, it) {
+        var el;
+        el = it.nextNode();
+        result[el.getAttribute('data-param-id')] = readParameter[tag](el.querySelectorAll("input,select"));
+      };
+    }
+  });
+  form.get = function(formElement, parameters) {
+    var it, matches, reader, result, selector;
+    matches = function() {
+      var args, node, _ref, _ref1;
+      node = arguments[0], args = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+      return ((_ref = (_ref1 = node.matches) != null ? _ref1 : node.mozMatchesSelector) != null ? _ref : node.webkitMatchesSelector).apply(node, args);
+    };
+    selector = ".parameter";
+    it = document.createNodeIterator(formElement, NodeFilter.SHOW_ELEMENT, {
+      acceptNode: function(node) {
+        if (matches(node, selector)) {
+          return NodeFilter.FILTER_ACCEPT;
+        } else {
+          return NodeFilter.FILTER_SKIP;
+        }
+      }
+    });
+    reader = parameterReader(parameters);
+    result = {};
+    reader(result, it);
+    return result;
+  };
   form.on = function(eventKey, selector, callback) {
     var $selector;
     if (!(typeof $ !== "undefined" && $ !== null)) {
