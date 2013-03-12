@@ -36,6 +36,9 @@
     #main-layout {
       margin-bottom: 7em;
     }
+    #buttons {
+      text-align: center;
+    }
 
   </style>
   <link href="bootstrap.css" rel='stylesheet'>
@@ -137,7 +140,11 @@
     
     var containerEl = document.getElementById('main-layout');
     containerEl.appendChild(controls);
-    
+    containerEl.appendChild(
+      html.div({id: "buttons"},
+        html.button({class: "store-btn"}, "Store values"),
+        html.button({class: "restore-btn"}, "Restore values")));
+        
     // Do event binding
     var $eventsConsole = $(document.getElementById('events-console'));
     parameterize.on("update", containerEl, function(){
@@ -150,6 +157,27 @@
     });
     // Test off method:
     //parameterize.off("update", containerEl);
+
+    // Store parameter arguments
+    var storedArgs = {};
+    $(".store-btn").on("click", function(){
+      storedArgs = parameterize.get(containerEl, form);
+      $eventsConsole
+        .stop(true,true)
+        .show()
+        .html("Arguments stored...\n\n" + JSON.stringify(storedArgs, undefined, "  "))
+        .fadeOut(1500);
+    });
+
+    // Restore parameter arguments
+    $(".restore-btn").on("click", function(){
+      parameterize.set(containerEl, form, storedArgs);
+      $eventsConsole
+        .stop(true,true)
+        .show()
+        .html("Arguments restored...\n\n" + JSON.stringify(storedArgs, undefined, "  "))
+        .fadeOut(1500);
+    });
   </script>
 </body>
 </html>
