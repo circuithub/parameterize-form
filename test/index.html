@@ -162,6 +162,7 @@
     var storedArgs = {};
     $(".store-btn").on("click", function(){
       storedArgs = parameterize.get(containerEl, form);
+      console.info("Arguments stored...", storedArgs);
       $eventsConsole
         .stop(true,true)
         .show()
@@ -172,6 +173,7 @@
     // Restore parameter arguments
     $(".restore-btn").on("click", function(){
       parameterize.set(containerEl, form, storedArgs);
+      console.info("Arguments restored...", storedArgs);
       $eventsConsole
         .stop(true,true)
         .show()
