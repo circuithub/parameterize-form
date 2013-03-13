@@ -26,10 +26,11 @@
     $selector.on 'keypress', 'input[type="text"]', (e) ->
       if e.which == 0
         return
-      callback arguments...
+      args = arguments
+      window.setTimeout (-> callback args...), 0 # Execute the callback after the event has completed (in the next iteration of the event loop)
       return
     # Handle non-printable characters
-    $selector.on 'keydown', 'input[type="text"]', (e) ->
+    $selector.on 'keyup', 'input[type="text"]', (e) ->
       if e.which == 0
         return
       switch e.which
@@ -58,7 +59,7 @@
     # Handle printable characters
     $selector.off 'keypress', 'input[type="text"]'
     # Handle non-printable characters
-    $selector.off 'keydown', 'input[type="text"]'
+    $selector.off 'keyup', 'input[type="text"]'
     return
 
   # Export this module for nodejs
