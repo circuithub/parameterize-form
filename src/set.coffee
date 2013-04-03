@@ -1,5 +1,4 @@
   writeParameter = (els, value) ->
-    console.log "param", value
     if not Array.isArray value
       if els.length != 1 then throw "Value provided #{value} cannot populate #{els.length} fields."
       els[0].value = value
@@ -10,7 +9,6 @@
     return
 
   writeTolerance = (els, value) ->
-    console.log "tolerance", value
     minMax = [value.min, value.max]
     [min,max] = minMax
     if not Array.isArray min
